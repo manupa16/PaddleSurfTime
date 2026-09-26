@@ -8,11 +8,11 @@ Esto se debía a que hacía viento, que daba lugar a pequeñas corrientes o incl
 
 ## Estado del Proyecto
 
-El proyecto está en fase de planificación, están definidos los usarios, historias de usuario y dos **pmv.**
+El proyecto está en fase de planificación, están definidos los usuarios, historias de usuario y dos **productos mínimamente viables.**
 
 ## Planificación
 
-La planificación del proyecto (user journeys, personas,justificación de historias de usuario, así como los dos primeros productos mínimamente viables) está en [docs/planificacion.md](docs/planificacion.md).
+La planificación del proyecto (user journeys, personas, justificación de historias de usuario, así como los dos primeros productos mínimamente viables) está en [docs/planificacion.md](docs/planificacion.md).
 Las historias de usuario se encuentran en [historias de usuario](https://github.com/manupa16/PaddleSurfTime/issues).
 Los productos que se van a entregar, en [milestones](https://github.com/manupa16/PaddleSurfTime/milestones).
 

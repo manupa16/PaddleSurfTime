@@ -4,11 +4,11 @@
 
 ### Journey 1 - Pedro
 
-Vivo en Murcia, lejos de la playa y uso la aplicación los días que quiero salir a hacer paddle surf. La consulto desde casa la noche anterior o al levantarme, antes de decidir si madrugo desde el móvil. Al entrar indico la playa a la que pensaba ir y la hora a la que llegaría, y la aplicación me dice si estará apta para practicar paddle surf a esa hora y, si no lo está, por qué(bandera, viento u oleaje). Si me dice que sí, echo la tabla y salgo, si me dice que no, me ahorro el madrugón y el viaje de hora y media.
+Vivo en Murcia, lejos de la playa y uso la aplicación los días que quiero salir a hacer paddle surf, sobre todo en verano y los fines de semana, unas 20 veces el verano pasado. La consulto desde casa la noche anterior o al levantarme, antes de decidir si madrugo desde el móvil. Al entrar indico la playa a la que pensaba ir y la hora a la que llegaría, y la aplicación me dice si estará apta para practicar paddle surf a esa hora y, si no lo está, por qué(bandera, viento u oleaje). Si me dice que sí, echo la tabla y salgo, si me dice que no, me ahorro el madrugón y el viaje de hora y media.
 
 ### Journey 2 - Lucía
 
-Lucía vive en Málaga y como ya está en la costa, se baja a la playa directamente. Cuando llega y ve que no está para prácticar paddle surf, saca el móvil y consulta la aplicación en ese mismo momento. Le indica a la app dónde está en ese momento y la app le dice cuál de las playas de alrededor está apta a esa hora, teniendo en cuenta cuánto tardaría en llegar a cada una. Si ninguna lo está, también se lo dice, y así no se mueve.
+Lucía vive en Málaga y como ya está en la costa, se baja a la playa directamente varias veces por semana sin planificarlo. Cuando llega y ve que no está para prácticar paddle surf, saca el móvil y consulta la aplicación en ese mismo momento. Le indica a la app dónde está en ese momento y la app le dice cuál de las playas de alrededor está apta a esa hora, teniendo en cuenta cuánto tardaría en llegar a cada una. Si ninguna lo está, también se lo dice, y así no se mueve.
 
 ## Personas
 
