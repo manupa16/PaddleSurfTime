@@ -8,7 +8,7 @@ Esto se debía a que hacía viento, que daba lugar a pequeñas corrientes o incl
 
 ## Estado del Proyecto
 
-El proyecto está en fase de planificación, están definidos los usuarios, historias de usuario y dos **productos mínimamente viables.**
+El proyecto está en fase de planificación, están definidos los usuarios, historias de usuario y dos milestones.
 
 ## Planificación
 
