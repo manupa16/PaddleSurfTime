@@ -4,11 +4,11 @@
 
 ### Journey 1 - Pedro
 
-Vivo en Murcia, lejos de la playa y uso la aplicación los días que quiero salir a hacer paddle surf, sobre todo en verano y los fines de semana, unas 20 veces el verano pasado. La consulto desde casa la noche anterior o al levantarme, antes de decidir si madrugo desde el móvil. Al entrar indico la playa a la que pensaba ir y la hora a la que llegaría, y la aplicación me dice si estará apta para practicar paddle surf a esa hora y, si no lo está, por qué(bandera, viento u oleaje). Si me dice que sí, echo la tabla y salgo, si me dice que no, me ahorro el madrugón y el viaje de hora y media.
+Llegué a la aplicación buscando previsiones de viento y oleaje para saber si iba a poder sacar la tabla, después de hacer varios viajes en balde y la uso porque es la única que me junta en un sitio lo que antes miraba en tres páginas distintas.Vivo en Murcia, lejos de la playa y uso la aplicación los días que quiero salir a hacer paddle surf, sobre todo en verano y los fines de semana, unas 20 veces el verano pasado. La consulto desde casa la noche anterior o al levantarme, antes de decidir si madrugo desde el móvil. Al entrar indico la playa a la que pensaba ir y la hora a la que llegaría, y la aplicación me dice si estará apta para practicar paddle surf a esa hora y, si no lo está, por qué(bandera, viento u oleaje). Si me dice que sí, echo la tabla y salgo, si me dice que no, me ahorro el madrugón y el viaje de hora y media.
 
 ### Journey 2 - Lucía
 
-Lucía vive en Málaga y como ya está en la costa, se baja a la playa directamente varias veces por semana sin planificarlo. Cuando llega y ve que no está para prácticar paddle surf, saca el móvil y consulta la aplicación en ese mismo momento. Le indica a la app dónde está en ese momento y la app le dice cuál de las playas de alrededor está apta a esa hora, teniendo en cuenta cuánto tardaría en llegar a cada una. Si ninguna lo está, también se lo dice, y así no se mueve.
+Lucía conoció la aplicación por otros que practican paddle surf en su playa, que la usaban para decidir si bajar, y la usa porque estando ya en la costa necesita decidir en el momento y desde el móvil. Vive en Málaga y como ya está en la costa, se baja a la playa directamente varias veces por semana sin planificarlo. Cuando llega y ve que no está para prácticar paddle surf, saca el móvil y consulta la aplicación en ese mismo momento. Le indica a la app dónde está en ese momento y la app le dice cuál de las playas de alrededor está apta a esa hora, teniendo en cuenta cuánto tardaría en llegar a cada una. Si ninguna lo está, también se lo dice, y así no se mueve.
 
 ## Personas
 
@@ -18,7 +18,7 @@ Lucía vive en Málaga y como ya está en la costa, se baja a la playa directame
 
 ## Justificación de las historias de usuario
 
-Destacar que los dos journeys se diferencian en cuándo se toma la decisión. Pedro decide antes de salri de casa, mientras que Lucía decide ya en la playa donde se decide si reaalizar el viaje o no. De aquí obtenemos tres historias de usuario:
+Destacar que los dos journeys se diferencian en cuándo se toma la decisión. Pedro decide antes de salir de casa, cuando todavía puede ahorrarse el viaje. Mientras que Lucía decide ya en la playa ( con el viaje hecho) y lo que está decidiendo es a dónde ir después.
 
 - HU001: saber si una playa concreta estará apta a una hora en concreto, se trata de la de Pedro.
 - HU002: saber a que otra playa ir cuando la actual no está en condiciones, se trata de la de Lucía.
