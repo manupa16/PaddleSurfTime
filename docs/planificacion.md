@@ -10,11 +10,6 @@ Llegué a la aplicación buscando previsiones de viento y oleaje para saber si i
 
 Lucía conoció la aplicación por otros que practican paddle surf en su playa, que la usaban para decidir si bajar, y la usa porque estando ya en la costa necesita decidir en el momento y desde el móvil. Vive en Málaga y como ya está en la costa, se baja a la playa directamente varias veces por semana sin planificarlo. Cuando llega y ve que no está para prácticar paddle surf, saca el móvil y consulta la aplicación en ese mismo momento. Le indica a la app dónde está en ese momento y la app le dice cuál de las playas de alrededor está apta a esa hora, teniendo en cuenta cuánto tardaría en llegar a cada una. Si ninguna lo está, también se lo dice, y así no se mueve.
 
-## Personas
-
-**Pedro:** vive en Murcia,lejos de la costa, sale a practicar paddle surf muy frecuentemente en verano y cada salida le supone más de una hora de coche, así que decide antes de salir de casa. Como la bandera y las páginas de previsión de vientos no le dicen si podrá practicar , muchos días hace el viaje para nada, por tanto saberlo antes de salir le ahorra el madrugón y el desplazamiento.
-
-**Lucía:** vive en Málaga a pocos minutos de la playa, baja a hacer paddle surf a menudo y sin planificarlo. Cuando llega y el mar no está para sacar la tabla no sabe que otra playa ir ni cuánto tardaría, así que acaba probando suerte. Por tanto poder consultarlo allí mismo desde el móvil le ahorraría dar vueltas, y si no hay ninguna apta, el no moverse.
 
 ## Justificación de las historias de usuario
 
