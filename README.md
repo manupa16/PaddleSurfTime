@@ -12,6 +12,14 @@ El proyecto está en fase de planificación, están definidos los usuarios, hist
 
 ## Planificación
 
+- [Planificación](docs/planificacion.md): se incluyen los user journeys y la justificación de las historias de usuario y los milestones.
+- [Personas](docs/personas.md): se incluyen los perfiles de usuario de los que salen las historias de usuario.
+- [Historias de Usuario](docs/historias_de_usuario.md): se incluyen las historias de usuario del proyecto.
+- [Milestones](docs/milestones.md): se incluyen los milestones.
+
+
+## Planificación
+
 La planificación del proyecto (user journeys, personas, justificación de historias de usuario, así como los dos primeros productos mínimamente viables) está en [docs/planificacion.md](docs/planificacion.md).
 Las historias de usuario se encuentran en [historias de usuario](https://github.com/manupa16/PaddleSurfTime/issues).
 Los productos que se van a entregar, en [milestones](https://github.com/manupa16/PaddleSurfTime/milestones).
