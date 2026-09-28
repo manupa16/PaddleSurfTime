@@ -4,25 +4,23 @@ Destacar que los milestones están también registrado en este repositorio. A la
 
 ## [Milestone 0: Representación de playas y condiciones](https://github.com/manupa16/PaddleSurfTime/milestone/1)
 
-**Qué  se entrega:** Se entrega la representación de las dos entidades del problema: la playa, con su ubicación y su orientación, y las condiciones del mar en una hora concreta, con la hora, la fuerza y la dirección del viento, la altura de las olas y la bandera.
+**Qué  se entrega:** Se entregan las playas y las condiciones del mar que aparecen en las historias de usuario, con los datos que se indican en las mismas, de forma que se puedan crear y manejar a través de código
 
-**Qué lo hace válido:** Se puede representar cualquier playa con sus datos reales y las condiciones del mar en una determinada hora sin perder ninguna de las variables. Además el modelo rechaza valores de variables que no existen en la realidad:
+**Qué lo hace válido:** La validez se comprueba mediante comprobaciones automáticas en el propio paquete. Se considerará válido cuando otra presona pueda instalarlo, crear con él una playa y unas condiciones reales, y las comprobaciones lo pasen. Destacar que los casos cubren los valores que no existen en la realidad:
 - **Dirección del viento y orientación de la playa:** se rechaza toda medida fuera del rango 0-360 grados.
 - **Altura de olas:** se rechaza toda altura menor estricta que cero.
 - **Fuerza del viento:** solo se rechazan valores negativos.
 - **Bandera:** se rechaza cualquier valor que no sea verde,amarilla o roja.
-Donde todo lo anterior se comprueba mediante comprobaciones automáticas.
 
 **Soporte:** Se entregará como un paquete escrito en Python, alojado en este mismo repositorio, sobre el que se construirá la lógica de decisión del milestone siguiente.
 
 **Historia de Usuario Asociada:** HU001 (#2) .
 
-**Se trata de un mínimo viable** porque en relación al mínimo todavía no incluye la decisión de si es una playa apta, los umbrales de viento y oleaje, la comparación entre viento y orientación de la playa, y  la elección entre varias playas.  Es viable porque los datos vienen de fuentes distintas, cada una con su formato, y sin una manera única de escribirlos no se puede comparar ni decidir nada.
+**Se trata de un mínimo viable** porque en relación al mínimo todavía no incluye la decisión de si es una playa apta, los umbrales de viento y oleaje, la comparación entre viento y orientación de la playa, ni la elección entre varias playas.  Es viable porque los datos vienen de fuentes distintas, cada una con su formato, y sin una manera única de escribirlos no se puede comparar ni decidir nada.
 
 ## [Milestone 1: Evaluación de condiciones para practicar paddle surf](https://github.com/manupa16/PaddleSurfTime/milestone/2)
 
-**Qué se entrega:** Se entrega la heurística que, a partir de una playa y de las condiciones del mar en una hora concreta, determina si la playa es apta o no a esa hora y, cuando no lo es , el motivo.
-La decisión se toma en tres pasos: se descarta la playa si la bandera es roja o amarilla, luego se compara la dirección del viento con la orientación de la playa, ya que el viento que sopla mar adentro es el peligroso. Y finalemente se comprueba que el viento y las olas estén por debajo de unos umbrales.
+**Qué se entrega:** Se entrega la decisión de si una playa es apta a una hora concreta y cuando no lo es, el motivo, aplicando la heurística descrita en [datos.md](datos.md).
 
 **Qué lo hace válido:** El producto es válido cuando, para un conjunto de casos de prueba cuyo resultado se conoce de antemano, la decisión que toma la heurística coincide con el resultado esperado. Los casos cubren las tres reglas de la heurística:
 - Bandera roja, con viento y oleaje dentro de los umbrales-> no apto, por bandera.
