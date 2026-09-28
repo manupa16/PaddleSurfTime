@@ -13,7 +13,9 @@ La consulto desde casa la noche anterior o al levantarme, antes de decidir si ma
 ### Journey 2 - Lucía
 
 Lucía conoció la aplicación por otros que practican paddle surf en su playa, que la usaban para el mismo propósito, y la usa porque estando ya en la costa necesita decidir en el momento y desde el móvil.
-Vive en Málaga y como ya está en la costa, se baja a la playa directamente varias veces por semana sin planificarlo. Estando allí lo único que tiene es lo que ve en la playa, ya que del resto de playas no tiene ninguna información. Cuando llega y ve que no está para prácticar paddle surf, saca el móvil y consulta la aplicación en ese mismo momento. 
+
+Vive en Málaga y como ya está en la costa, se baja a la playa directamente varias veces por semana sin planificarlo. Estando allí lo único que tiene es lo que ve en la playa, ya que del resto de playas no tiene ninguna información. Cuando llega y ve que no está para prácticar paddle surf, saca el móvil y consulta la aplicación en ese mismo momento.
+
 Le indica a la app dónde está en ese momento y la app le dice cuál de las playas de alrededor está apta a esa hora, teniendo en cuenta cuánto tardaría en llegar a cada una. Si ninguna lo está, también se lo dice, y así no se mueve.
 
 
