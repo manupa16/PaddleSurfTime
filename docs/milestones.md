@@ -3,7 +3,7 @@
 
 ## [Milestone 0: Modelo del Problema](https://github.com/manupa16/PaddleSurfTime/milestone/1)
 
-**Qué  se entrega:** Se entrega un paquete  de Python en este repositorio que solo contiene el modelo del problema (entidades y objetos de valor que aparecen en las historias de usuario) sin ninguna lógica.
+**Qué  se entrega:** Se entrega un paquete  de Python en este repositorio que solo contiene el modelo del problema (entidades y variables que aparecen en las historias de usuario) sin ninguna lógica.
 
 **Qué lo hace válido:** El paquete se da por válido cuando otra persona lo instala siguiendo el README, lo importa desde su código y consigue representar con él los datos del ejemplo HU001.
 
