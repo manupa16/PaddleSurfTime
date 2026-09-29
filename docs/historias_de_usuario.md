@@ -1,7 +1,5 @@
 # Historias de Usuario
 
-Destacar que las historias de usuario están también registradas como issues en el repositorio con la etiqueta user-stories. Además incluimos los distintos datos que intervienen en las historias de usuario.
-
 ## [HU001] ([#2](https://github.com/manupa16/PaddleSurfTime/issues/2))
 
 Como deportista de paddle surf que vivo en Murcia, lejos de la playa.Me levanto muy temprano para ir a la playa ya que, en caso de que la playa no sea apta para practicar paddle surf, tengo que volver a coger el coche y desplazarme a otra playa cercana para ver si puedo realizarlo allí. El problema es que no tengo forma de saber, antes de salir de casa, si la playa estará apta a la hora a la que llegue, así que si no lo está hago el viaje para nada, y en caso de que lo este, he tenido que madrugar de más por si tenía que desplazarme a otra playa.
