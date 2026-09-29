@@ -5,7 +5,7 @@
 
 **Qué  se entrega:** Se entrega un paquete  de Python en este repositorio que solo contiene el modelo del problema (entidades y objetos de valor que aparecen en las historias de usuario) sin ninguna lógica.
 
-**Qué lo hace válido:** Es válido cuando los tests pasan de forma automática cada vez que se sube un cambio al repositorio y cualquier otra persona puede instalar el paquete siguiendo el README.
+**Qué lo hace válido:** El paquete se da por válido cuando otra persona lo instala siguiendo el README, lo importa desde su código y consigue representar con él los datos del ejemplo HU001.
 
 **Historia de Usuario Asociada:** HU001 (#2) .
 
@@ -13,9 +13,9 @@
 
 ## [Milestone 1: Primera versión usable](https://github.com/manupa16/PaddleSurfTime/milestone/2)
 
-**Qué se entrega:** Se entrega el mismo paquete, al que se le añade la lógica necesaria para resolver de principio a fin el problema que plantea HU001 (#2).
+**Qué se entrega:** Se entrega una nueva versión del mismo paquete que además del modelo, ya incluye la lógica y se puede utilizar desde código.
 
-**Qué lo hace válido:** Es válido cuando pasan los tests hechos con casos de los que ya se conoce el resultado y que se ejecutan de forma automática con cada cambio en el repositorio.
+**Qué lo hace válido:** La nueva versión del paquete es válida cuando, al pasarle casos de los que ya se conoce la respuesta, devuelve esa misma respuesta. Esta comprobación se hace con tests que se ejecutan automáticamente cada vez que se sube un cambio al paquete.
 
 **Historia de Usuario Asociada:**  HU001 (#2)
 
