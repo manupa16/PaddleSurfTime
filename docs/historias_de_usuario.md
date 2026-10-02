@@ -2,7 +2,7 @@
 
 ## [HU001] ([#2](https://github.com/manupa16/PaddleSurfTime/issues/2))
 
-Como deportista de paddle surf que vivo en Murcia, lejos de la playa.Me levanto muy temprano para ir a la playa ya que, en caso de que la playa no sea apta para practicar paddle surf, tengo que volver a coger el coche y desplazarme a otra playa cercana para ver si puedo realizarlo allí. El problema es que no tengo forma de saber, antes de salir de casa, si la playa estará apta a la hora a la que llegue, así que si no lo está hago el viaje para nada, y en caso de que lo este, he tenido que madrugar de más por si tenía que desplazarme a otra playa.
+Como deportista de paddle surf que vivo en Murcia, lejos de la playa.Me levanto muy temprano para ir a la playa ya que, en caso de que la playa no sea apta para practicar paddle surf, tengo que volver a coger el coche y desplazarme a otra playa cercana para ver si puedo realizarlo allí. El problema es que no tengo forma de saber, antes de salir de casa, si la playa estará apta a la hora a la que llegue, así que si no lo está hago el viaje para nada, y en caso de que lo este, he tenido que madrugar de más por si tenía que desplazarme a otra playa .
 
 **Datos:** playa (ubicación, en latitud y longitud, y orientación en grados de 0 a 360 desde el norte en sentido horario hacia donde mira la playa) y condiciones del mar a una hora concreta, fuerza del viento (km/h), dirección desde la que sopla el viento (grados de 0 a 360, con el mismo criterio), altura de las olas (metros) y bandera (verde, amarilla o roja).
 **Ejemplo:** playa de Bolnuevo en Mazarrón (latitud y longitud), orientada a 165°. A las 9:00 hay viento de 12km/h que viene desde 248°, olas de 0,4 metros y bandera verde.
