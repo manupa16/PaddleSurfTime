@@ -19,7 +19,7 @@ Vive en Málaga y como ya está en la costa, se baja a la playa directamente var
 Le indica a la app dónde está en ese momento y la app le dice cuál de las playas de alrededor está apta a esa hora, teniendo en cuenta cuánto tardaría en llegar a cada una. Si ninguna lo está, también se lo dice, y así no se mueve.
 
 
-## Justificación de las historias de usuario
+## Relación con las historias de usuario
 
 Destacar que los dos journeys se diferencian en cuándo se toma la decisión. Pedro decide antes de salir de casa, cuando todavía puede ahorrarse el viaje. Mientras que Lucía decide ya en la playa ( con el viaje hecho) y lo que está decidiendo es a dónde ir después.
 
@@ -27,5 +27,4 @@ Destacar que los dos journeys se diferencian en cuándo se toma la decisión. Pe
 - HU002: saber a que otra playa ir cuando la actual no está en condiciones, se trata de la de Lucía.
 - HU003: saber a qué hora del día son mejores las condiciones de una playa, está relacionada con Pedro, pero en este caso busca una hora o franja horaria.
 
-Por último destacar que el milestone 0 entrega la representación de las playas y de las condiciones del mar, resaltar que aquí no se decide nada. Por otro lado, el milestone 1 enrega la lógica que decide si una playa es apta.
 

@@ -12,7 +12,7 @@ El proyecto está en fase de planificación, están definidos los usuarios, hist
 
 ## Planificación
 
-- [Planificación](docs/planificacion.md): se incluyen los user journeys y la justificación de las historias de usuario y los milestones.
+- [User Journeys](docs/user_journeys.md): se incluyen los user journeys y su relación con las historias de usuario.
 - [Personas](docs/personas.md): se incluyen los perfiles de usuario de los que salen las historias de usuario.
 - [Historias de Usuario](docs/historias_de_usuario.md): se incluyen las historias de usuario del proyecto.
 - [Milestones](docs/milestones.md): se incluyen los milestones.

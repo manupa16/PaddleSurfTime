@@ -22,5 +22,5 @@ Soy deportista de paddle surf, voy a la playa a primera hora que es cuando suelo
 **Datos:** Mismos datos que para HU001, pero para todas las franjas horarias del día no solamente para una.
 **Ejemplo:** en la playa de Bolnuevo a las 8:00 hay viento de 8 km/h y olas de 0,2 m, a las 12:00 viento de 20 km/h y olas de 0,6 m y a las 16:00 viento de 25 km/h y olas de 0,8 m.
 
-Finalmente destacar que las fuentes de datos(así como la heurística) están descritas en [datos.md](datos.md). Por otro lado el contexto de cada historia está en los [user journeys](planificacion.md)
+Finalmente destacar que las fuentes de datos(así como la heurística) están descritas en [datos.md](datos.md). Por otro lado el contexto de cada historia está en los [user journeys](user_journeys.md)
 
