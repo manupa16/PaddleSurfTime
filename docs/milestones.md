@@ -2,7 +2,7 @@
 
 ## [Milestone 0: Análisis del Problema](https://github.com/manupa16/PaddleSurfTime/milestone/1)
 
-Este milestone resuelve la primera parte del problema que plantea HU001(#2). Se entrega como código en el repositorio correctamente modularizado y todavía sin lógica de negocio, obtenido aplicando a HU001(#2) la metodología Domain Driven Design, que distingue entre objetos valor y entidades.
+Este milestone resuelve la primera parte del problema que plantea HU001(#2). Se entrega como código en el repositorio correctamente modularizado y todavía sin lógica de negocio, obtenido aplicando a HU001(#2) la metodología Domain Driven Design. 
 
 Para ver que es válido, primero se revisa que los issues que se abren (antes de escribir nada de código) recogen problemas de HU001(#2), porque en el caso de que esten mal se corrigen, ya que un issue erróneo daría lugar a código erróneo. Después en la revisión del PR, se recorre un proceso que va desde el código  hasta la historia de usuario. Donde cada parte del código tiene que venir de un commit y a su vez dicho commit tiene que indicar el issue que resuelve, y dicho issue tiene que recoger un problema de HU001 (#2).Por último con el código se tienen que poder crear los datos del ejemplo de HU001 (#2).
 
