@@ -17,11 +17,31 @@ El proyecto está en fase de planificación, están definidos los usuarios, hist
 - [Historias de Usuario](docs/historias_de_usuario.md): se incluyen las historias de usuario del proyecto.
 - [Milestones](docs/milestones.md): se incluyen los milestones.
 
+## Comprobación del código
+
+La clase principal es `Playa` localizada en `src/paddlesurf_time/playa.py` . Se encarga de representar una playa con su nombre, municipio, orientación y guarda las condiciones del mar. Se usará para ver si en esa playa se puede practicar paddle surf según esas condiciones.
+
+Es necesario `make` y Python 3.14. Con pyenv se instal así:
+
+```
+pyenv install 3.14
+``` 
+
+Para comprobar que el código es sintácticamente correcto, desde la raíz del repositorio se ejecuta:
+
+```
+make check
+```
+
+Si el código es correcto, se termina sin mostrar ningún error, en caso contrario, se indica el fichero y la línea donde está el error de sintaxis.
+
 ## Documentación adicional
 
 - [Fuentes de datos y heurística](docs/datos.md)
 - [Juego de rol](docs/juego_de_rol.md)
 - [Configuración del entorno](docs/entorno.md)
+- [Automatización de tareas](docs/automatizacion.md)
+
 
 
 
