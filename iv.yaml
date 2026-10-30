@@ -1,0 +1,5 @@
+lenguaje: python
+entidad: src/paddlesurf_time/playa.py
+automatizar:
+  fichero: Makefile
+  orden: make
