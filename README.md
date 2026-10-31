@@ -97,8 +97,3 @@ Si el código es correcto, se termina sin mostrar ningún error, en caso contrar
 - [Fuentes de datos y heurística](docs/datos.md)
 - [Juego de rol](docs/juego_de_rol.md)
 - [Configuración del entorno](docs/entorno.md)
-
-
-
-
-
