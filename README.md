@@ -23,9 +23,9 @@ El proyecto está en fase de planificación, están definidos los usuarios, hist
  
 Las dependencias se expresan en dos partes: un fichero donde se declaran y un programa que lo interpreta y las instala. En Python el fichero es `pyproject.toml`,siendo este el estandar, mientras que las dependencias del proyecto van en `[project]` y las que solo hacen falta para desarrollar, como las bibliotecas de test, a través de `[dependency-groups]`. Donde `[project]` sigue PEP 621 y `[dependency-groups]` sigue PEP 735, siendo los PEP los documentos oficiales donde se definen los estándares de Python.
  
-Ahora mismo el código solo usa la biblioteca estándar, pero tendrá dependencias más adelante, por ejemplo cuando se añadan los tests. Por eso, antes de comprobar las opciones se han fijado estos criterios, que se usarán para decidir:
+Ahora mismo el código solo usa la biblioteca estándar, pero tendrá dependencias más adelante, por ejemplo cuando se añadan los tests. Por eso, antes de comparar las opciones se han fijado estos criterios, que se usarán para decidir:
 
-- **Estándar:** si lee las dependencias del fichero `pyproyect.toml`.
+- **Estándar:** si lee las dependencias del fichero `pyproject.toml`.
 - **Entorno y bloqueo :** si instala las dependencias en un entorno solo para el proyecto y guarda sus versiones exactas en un archivo.
 - **Qué hace falta para instalarlo:** cuántas dependencias añade.
 - **Mantenimiento:** Si ha publicado versiones este año.
@@ -40,7 +40,7 @@ Ahora mismo el código solo usa la biblioteca estándar, pero tendrá dependenci
 | hatch | Sí | Sí | Python, pip y sus propias dependencias | Sí |
 | Pipenv | No, usa `Pipfile` | Sí | Python, pip y sus propias dependencias | Sí |
 
-Por eso se elige uv, es el único que cumple con los dos primeros criterios sin necesitar nada más para instalarse. Además respeta la versión de Python que pide `requires-python` en `pyproyect.toml` y en caso de que no está en el sistema, la descarga, de manera que la versión del lenguaje y las dependencias las controla la misma herramienta. Por otro lado cuando haya bibliotecas de test, se declararán en un grupo de `[dependency-groups]`quedando fijas en `uv.lock` . Por último destacar que uv no permite definir tareas, luego no sirve como gestor de tareas.
+Por eso se elige uv, es el único que cumple con los dos primeros criterios sin necesitar nada más para instalarse. Además respeta la versión de Python que pide `requires-python` en `pyproject.toml` y en caso de que no está en el sistema, la descarga, de manera que la versión del lenguaje y las dependencias las controla la misma herramienta. Por otro lado cuando haya bibliotecas de test, se declararán en un grupo de `[dependency-groups]`quedando fijas en `uv.lock` . Por último destacar que uv no permite definir tareas, luego no sirve como gestor de tareas.
 
 ### Gestor de tareas
  
@@ -51,22 +51,22 @@ Antes de comparar las opciones se han fijado estos criterios, para basarse a la 
 - **Estándar:** si el fichero de tareas sigue un estándar.
 - **Qué añade al proyecto:** si hay que instalarlo como dependencia o como un programa aparte.
 - **Qué más gestiona:** si además de tareas gestiona dependencias.
-- **Última versión.**
+- **Última versión:** año en el que se publica.
 
 | Herramienta | Estándar | Qué añade al proyecto | Qué más gestiona | Última versión |
 |---|---|---|---|---|
-| make | Sí, POSIX | Nada, ya está en el sistema | Nada | 4.4.1 (2023) |
-| just | No, `justfile` | Un programa aparte | Nada | 1.58.0 (2026) |
-| task | No, `Taskfile.yml` | Un programa aparte | Nada | 3.54.0 (2026) |
-| invoke | No, `tasks.py` | Una dependencia de Python | Nada | 3.0.3 (2026) |
-| doit | No, `dodo.py` | Una dependencia de Python | Nada | 0.37.0 (2026) |
-| poethepoet | No, formato propio en `pyproject.toml` | Una dependencia de Python | Nada | 0.48.0 (2026) |
-| taskipy | No, formato propio en `pyproject.toml` | Una dependencia de Python | Nada | 1.14.1 (2024) |
-| nox | No, `noxfile.py` | Una dependencia de Python | Entornos | 2026.8.17 (2026) |
-| tox | No, formato propio | Una dependencia de Python | Entornos | 4.65.3 (2026) |
-| Pipenv | No, `Pipfile` | Una dependencia de Python | Dependencias, como uv | 2026.10.1 (2026) |
-| pdm | No, formato propio en `pyproject.toml` | Una dependencia de Python | Dependencias, como uv | 2.29.2 (2026) |
-| hatch | No, formato propio en `pyproject.toml` | Una dependencia de Python | Dependencias, como uv | 1.18.1 (2026) |
+| make | Sí, POSIX | Nada ya está en el sistema | Nada | 2023 |
+| just | No, `justfile` | Un programa aparte | Nada | 2026 |
+| task | No, `Taskfile.yml` | Un programa aparte | Nada | 2026 |
+| invoke | No, `tasks.py` | Una dependencia de Python | Nada | 2026 |
+| doit | No, `dodo.py` | Una dependencia de Python | Nada | 2026 |
+| poethepoet | No, formato propio en `pyproject.toml` | Una dependencia de Python | Nada | 2026 |
+| taskipy | No, formato propio en `pyproject.toml` | Una dependencia de Python | Nada | 2024 |
+| nox | No, `noxfile.py` | Una dependencia de Python | Entornos | 2026 |
+| tox | No, formato propio | Una dependencia de Python | Entornos | 2026 |
+| Pipenv | No, `Pipfile` | Una dependencia de Python | Dependencias, como uv | 2026 |
+| pdm | No, formato propio en `pyproject.toml` | Una dependencia de Python | Dependencias como uv | 2026 |
+| hatch | No, formato propio en `pyproject.toml` | Una dependencia de Python | Dependencias como uv | 2026 |
 
 
 Por tanto, se elige make, que se trata de una herramienta de construcción que se usa como gestor de tareas, donde cada objetivo del `Makefile` es una tarea que se lanza con `make <tarea>`. Es el único que sigue un estándar y no añade nada al proyecto, ya que just y task habría que instalarlos en cada máquina donde se trabaje con él, y los demás añadirían una dependencia de Python solo para lanzar tareas o duplicarían lo que ya hace uv. Su última versión es de 2023, pero es una herramienta estable y al ser un estándar POSIX, apenas necesita cambios.
