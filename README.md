@@ -21,56 +21,53 @@ El proyecto está en fase de planificación, están definidos los usuarios, hist
  
 ### Gestor de dependencias
  
-Las dependencias se expresan en dos partes: un fichero donde se declaran y un programa que lo interpreta y las instala. En Python el fichero es `pyproject.toml`,siendo este el estandar, mientras que las dependencias del proyecto van en `[project]` y las que solo hacen falta para desarrollar, como las bibliotecas de test, a través de `[dependency-groups]`. Donde `[project]` sigue PEP 621 y `[dependency-groups]` sigue PEP 735, siendo los PEP los documentos oficiales donde se definen los estándares de Python.
+Las dependencias se expresan en dos partes que son: un fichero donde se declaran y un programa que lo interpreta y las instala. En Python el fichero es `pyproject.toml`,siendo este el estandar, mientras que las dependencias del proyecto van en `[project]` y las que solo hacen falta para desarrollar, como las bibliotecas de test, a través de `[dependency-groups]`.
  
-Ahora mismo el código solo usa la biblioteca estándar, pero tendrá dependencias más adelante, por ejemplo cuando se añadan los tests. Por eso, antes de comparar las opciones se han fijado estos criterios, que se usarán para decidir:
+Para comparar las distintas opciones que se han investigado, se han seguido unos criterios de la página [pydevtools](https://pydevtools.com/handbook/explanation/which-python-package-manager-should-i-use/), a saber son:
 
-- **Estándar:** si lee las dependencias del fichero `pyproject.toml`.
-- **Entorno y bloqueo :** si instala las dependencias en un entorno solo para el proyecto y guarda sus versiones exactas en un archivo.
-- **Qué hace falta para instalarlo:** cuántas dependencias añade.
-- **Mantenimiento:** Si ha publicado versiones este año.
+- **Estándar:** si usa los metadatos del PEP 621.
+- **Archivo de bloqueo:** si fija la versión exacta de cada dependencia.
+- **Gestión del intérprete de Python:** si puede instalar y elegir la versión de Python que usa el proyecto.
+- **Qué hay que instalar:** qué hace falta para usarlo.
 
-
-| Herramienta | Estándar | Entorno y bloqueo | Qué hace falta para instalarlo | Mantenimiento |
+| Herramienta | Estándar | Archivo de bloqueo | Gestión del intérprete de Python | Qué hay que instalar |
 |---|---|---|---|---|
-| pip | Sí | No | Viene con Python | Sí |
-| uv | Sí | Sí | Nada, es un único programa | Sí |
-| poetry | Sí | Sí | Python, pip y sus propias dependencias | Sí |
-| pdm | Sí | Sí | Python, pip y sus propias dependencias | Sí |
-| hatch | Sí | Sí | Python, pip y sus propias dependencias | Sí |
-| Pipenv | No, usa `Pipfile` | Sí | Python, pip y sus propias dependencias | Sí |
+| pip | Sí | No | No | Nada, viene con Python |
+| uv | Sí | Sí | Sí | Un único programa |
+| Poetry | Sí | Sí | Experimental | Un paquete de Python |
+| PDM | Sí | Sí | Sí | Un paquete de Python |
+| Hatch | Sí | Sí | Sí | Un paquete de Python |
+| Pipenv | No, usa `Pipfile` | Sí | Solo con pyenv | Un paquete de Python |
 
-Por eso se elige uv, es el único que cumple con los dos primeros criterios sin necesitar nada más para instalarse. Además respeta la versión de Python que pide `requires-python` en `pyproject.toml` y en caso de que no está en el sistema, la descarga, de manera que la versión del lenguaje y las dependencias las controla la misma herramienta. Por otro lado cuando haya bibliotecas de test, se declararán en un grupo de `[dependency-groups]`quedando fijas en `uv.lock` . Por último destacar que uv no permite definir tareas, luego no sirve como gestor de tareas.
+Pip a diferencia del resto no guarda las versiones exactas que se instalan, así que cada instalación puede ser diferente.No tiene un sistema para manejar las versiones de python, es decir, si la herramienta puede instalar y elegir la version de python que usa el proyecto. Por otro lado Pipenv, utiliza su propio formato Pipfile, en vez de usar pyproject.toml. Descartando ambos, se manejan las opciones de uv, Poetry, PDM y Hatch, sin embargo, se observa que uv es un único programa, mientras que los otros son paquetes de Python que hay que instalar con sus dependencias. En conlusión se elige uv, ya que a difrencia de los comentados, se trata de un gestor de dependencias que no añade dependencias que mantener. Además respeta la versión de Python que pide `requires-python` en `pyproject.toml` y en caso de que no está en el sistema, la descarga, de manera que la versión del lenguaje y las dependencias las controla la misma herramienta. Destacar que uv no permite definir tareas,así que no sirve como gestor de tareas.
+
 
 ### Gestor de tareas
  
 El proyecto necesita un gestor de tareas, esto es, un fichero en la raíz del repositorio donde cada tarea tenga un nombre y se lance con una orden. Ahora mismo solo se ha incluido la tarea de comprobar la sintaxis y la de ejecutar tests.
 
-Antes de comparar las opciones se han fijado estos criterios, para basarse a la hora de decidir:
+Para comparar las distintas ocpiones se han tomados varios criterios de la siguiente pagína web [pyOpenSci](https://www.pyopensci.org/python-package-guide/maintain-automate/task-runners.html) , junto al estándar y que es necesario para instalarlos:
 
+- **Configuración:** declarativa (si las tareas se describen en un fichero de configuración) o imperativa (se escriben como código Python).
+- **Entornos:** si crea y gestiona entornos virtuales.
+- **Empaquetado:** si además sirve para construir y publicar el paquete.
+- **Varias versiones de Python:** si permite ejecutar los tests con distintas versiones de Python.
+- **Multiplataforma:** si funciona igual en Linux, macOS y Windows.
 - **Estándar:** si el fichero de tareas sigue un estándar.
-- **Qué añade al proyecto:** si hay que instalarlo como dependencia o como un programa aparte.
-- **Qué más gestiona:** si además de tareas gestiona dependencias.
-- **Última versión:** año en el que se publica.
+- **Qué hay que instalar:** si hay que instalar algo para usarlo.
 
-| Herramienta | Estándar | Qué añade al proyecto | Qué más gestiona | Última versión |
-|---|---|---|---|---|
-| make | Sí, POSIX | Nada ya está en el sistema | Nada | 2023 |
-| just | No, `justfile` | Un programa aparte | Nada | 2026 |
-| task | No, `Taskfile.yml` | Un programa aparte | Nada | 2026 |
-| invoke | No, `tasks.py` | Una dependencia de Python | Nada | 2026 |
-| doit | No, `dodo.py` | Una dependencia de Python | Nada | 2026 |
-| poethepoet | No, formato propio en `pyproject.toml` | Una dependencia de Python | Nada | 2026 |
-| taskipy | No, formato propio en `pyproject.toml` | Una dependencia de Python | Nada | 2024 |
-| nox | No, `noxfile.py` | Una dependencia de Python | Entornos | 2026 |
-| tox | No, formato propio | Una dependencia de Python | Entornos | 2026 |
-| Pipenv | No, `Pipfile` | Una dependencia de Python | Dependencias, como uv | 2026 |
-| pdm | No, formato propio en `pyproject.toml` | Una dependencia de Python | Dependencias como uv | 2026 |
-| hatch | No, formato propio en `pyproject.toml` | Una dependencia de Python | Dependencias como uv | 2026 |
+| Herramienta | Configuración | Entornos | Empaquetado | Varias versiones de Python | Multiplataforma | Estándar | Qué hay que instalar |
+|---|---|---|---|---|---|---|---|
+| Hatch | Declarativa | Sí | Sí | Sí | Sí | No | Un paquete de Python |
+| Nox | Imperativa | Sí | No | Sí | Sí | No | Un paquete de Python |
+| Tox | Declarativa | Sí | No | Sí | Sí | No | Un paquete de Python |
+| Make | Declarativa | No | No | No | Limitado | Sí (POSIX) | Nada |
+| Just | Declarativa | No | No | No | Sí | No | Un programa aparte |
 
 
-Por tanto, se elige make, que se trata de una herramienta de construcción que se usa como gestor de tareas, donde cada objetivo del `Makefile` es una tarea que se lanza con `make <tarea>`. Es el único que sigue un estándar y no añade nada al proyecto, ya que just y task habría que instalarlos en cada máquina donde se trabaje con él, y los demás añadirían una dependencia de Python solo para lanzar tareas o duplicarían lo que ya hace uv. Su última versión es de 2023, pero es una herramienta estable y al ser un estándar POSIX, apenas necesita cambios.
+Hatch, Nox, Tox se encargan de gestionar entornos y eso ya lo hace uv, por lo que no son de interés. Por otro lado Make y Just  observamos en la tabla que se parecen en casi todo, salvo el estándar,en qué hay que instalar y los problemas de incompatibilidad de multiplataforma. Aquí nace la duda de sí Just o Make. Según se ha investigado Make presenta diversos problemas multiplataforma, así Just es mejor en este caso, pero esto no es de importancia en nuestro caso al trabajar únicamente en Linux. Además de esto, make es el único que sigue un estándar, y a diferencia de Just, Make no requiere instalar nada Y no añade nada al proyecto. Es cierto que su última versión es de 2023, pero se trata de una herramienta estable y al seguir un estándar POSIX, apenas necesita cambios.
 
+Por tanto, se elige make, que se trata de una herramienta de construcción que se usa como gestor de tareas, donde cada objetivo del `Makefile` es una tarea que se lanza con `make <tarea>`. 
 La tarea `check` ejecuta `python3 -m compileall -q src`, que se encarga de compilar los ficheros sin ejecutarlos, comprobando solo la sintaxis.
 
 
