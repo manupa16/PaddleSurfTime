@@ -73,7 +73,7 @@ La tarea `check` ejecuta `python3 -m compileall -q src`, que se encarga de compi
 
 ## Comprobación del código
 
-La clase principal es `Playa` localizada en `src/paddlesurf_time/playa.py` . Se encarga de representar una playa con su nombre, municipio, orientación y guarda las condiciones del mar. Se usará para ver si en esa playa se puede practicar paddle surf según esas condiciones.
+La clase principal es `Playa` localizada en `src/paddlesurf_time/playa.py` (llega con el modelo del objetivo 2). Se encarga de representar una playa con su nombre, municipio, orientación y guarda las condiciones del mar. Se usará para ver si en esa playa se puede practicar paddle surf según esas condiciones.
 
 Es necesario `make` y Python 3.14. Con pyenv se instal así:
 
