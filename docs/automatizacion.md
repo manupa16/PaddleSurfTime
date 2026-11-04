@@ -12,6 +12,8 @@ Para comparar las distintas opciones que se han investigado, se han seguido unos
 - **Espacio que ocupa:** lo que ocupa la herramienta una vez instalada.
 - **Tiempo de instalación del proyecto:** lo que tarda en instalar el proyecto con sus dependencias.
 
+Destacar que debajo de la tabla se incluyen unas capturas, para constrastar los datos,sobre las diversas mediciones realizadas sobre los gestores.
+
 | Herramienta | Archivo de bloqueo | Gestión del intérprete de Python | Qué hay que instalar | Espacio que ocupa | Tiempo de instalación del proyecto |
 |---|---|---|---|---|---|
 | uv | Sí | Sí | Un único programa | 36 MB (uv) + 324KB (uvx) | 0,035 s |
@@ -23,11 +25,19 @@ Medida de uv:
 
 ![Mediciones de uv](medir_uv.png)
 
+Medida de Poetry:
+
 ![Mediciones de Poetry](medir_poetry.png)
+
+Medida de pdm:
 
 ![Mediciones de Pdm](medir_pdm.png)
 
+Medida de hatch:
+
 ![Mediciones de Hatch](medir_hatch.png)
+
+
 
 Además de los criterios de pydevtools, se han medido el espacio que ocupa cada herramienta y el tiempo que tarda en instalar el proyecto. Se han incluido porque según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación y de ejecución es esencial, luego ambos criterios son muy relevantes.
 
@@ -38,28 +48,33 @@ Entre Pdm y uv, PDM es algo más liego, pero uv tarda muchísimo menos, además 
 
 ## Gestor de tareas
  
-El proyecto necesita un gestor de tareas, esto es, un fichero en la raíz del repositorio donde cada tarea tenga un nombre y se lance con una orden. Ahora mismo solo se ha incluido la tarea de comprobar la sintaxis y la de ejecutar tests.
+ Un gestor de tareas permite lanzar, como subcomandos de un solo programa, todas las tareas que hay que llevar a cabo en el proyecto definidas en un único fichero. Ahora mismo la única tarea del proyecto es comprobar la sintaxis (`check`).
 
-Para comparar las distintas ocpiones se han tomados varios criterios de la siguiente pagína web [pyOpenSci](https://www.pyopensci.org/python-package-guide/maintain-automate/task-runners.html) , junto al estándar y que es necesario para instalarlos:
+Se comparan make, invoke y just. Destacar que uv no permite definir tareas, luego no sirve como gestor de tareas. Los criterios a saber son los siguientes:
 
-- **Configuración:** declarativa (si las tareas se describen en un fichero de configuración) o imperativa (se escriben como código Python).
-- **Entornos:** si crea y gestiona entornos virtuales.
-- **Empaquetado:** si además sirve para construir y publicar el paquete.
-- **Varias versiones de Python:** si permite ejecutar los tests con distintas versiones de Python.
-- **Multiplataforma:** si funciona igual en Linux, macOS y Windows.
-- **Estándar:** si el fichero de tareas sigue un estándar.
-- **Qué hay que instalar:** si hay que instalar algo para usarlo.
+- **Estilo de configuración:** declarativa (las tareas se describen en un fichero) o imperativa (se escriben como código).
+- **Estándar:** si la herramienta sigue un estándar.
+- **Qué hay que instalar:** qué hace falta para usarla.
+- **Espacio que ocupa:** lo que ocupa la herramienta una vez instalada.
+- **Tiempo en ejecutar check:** lo que tarda en lanzar la tarea de comprobar la sintaxis.
 
-| Herramienta | Configuración | Entornos | Empaquetado | Varias versiones de Python | Multiplataforma | Estándar | Qué hay que instalar |
-|---|---|---|---|---|---|---|---|
-| Hatch | Declarativa | Sí | Sí | Sí | Sí | No | Un paquete de Python |
-| Nox | Imperativa | Sí | No | Sí | Sí | No | Un paquete  de Python |
-| Tox | Declarativa | Sí | No | Sí | Sí | No | Un paquete de Python |
-| Make | Declarativa | No | No | No | Limitado | Sí (POSIX) | Nada |
-| Just | Declarativa | No | No | No | Sí | No | Un programa aparte  |
+Al igual que para el gestor de dependencias, se adjuntan capturas mostrando las mediciones, para constrastar los datos.
 
+| Herramienta | Estilo de configuración | Estándar | Qué hay que instalar | Espacio que ocupa | Tiempo en ejecutar `check` |
+|---|---|---|---|---|---|
+| make | Declarativa | Sí (POSIX) | Nada | 284 KB | 0,106 s |
+| just | Declarativa | No | Un único programa | 6,3 MB | 0,100 s |
+| invoke | Imperativa | No | Un paquete de Python | 780 KB | 0,262 s |
 
-Hatch, Nox, Tox se encargan de gestionar entornos y eso ya lo hace uv, por lo que no son de interés. Por otro lado Make y Just  observamos en la tabla que se parecen en casi todo, salvo el estándar,en qué hay que instalar y los problemas de incompatibilidad de multiplataforma. Aquí nace la duda de sí Just o Make. Según se ha investigado Make presenta diversos problemas multiplataforma, así Just es mejor en este caso, pero esto no es de importancia en nuestro caso al trabajar únicamente en Linux. Además de esto, make es el único que sigue un estándar, y a diferencia de Just, Make no requiere instalar nada Y no añade nada al proyecto. Es cierto que su última versión es de 2023, pero se trata de una herramienta estable y al seguir un estándar POSIX, apenas necesita cambios.
+Medida de Make:
 
-Por tanto, se elige make, que se trata de una herramienta de construcción que se usa como gestor de tareas, donde cada objetivo del `Makefile` es una tarea que se lanza con `make <tarea>`. 
-La tarea `check` ejecuta `python3 -m compileall -q src`, que se encarga de compilar los ficheros sin ejecutarlos, comprobando solo la sintaxis.
+![Mediciones de Make](medir_make.png)
+
+Mediciones de Just:
+
+![Mediciones de Just](medir_just.png)
+
+Mediciones de Invoke:
+
+![Mediciones de Invoke](medir_invoke.png)
+
