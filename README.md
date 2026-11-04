@@ -36,7 +36,7 @@ Para comparar las distintas opciones que se han investigado, se han seguido unos
 | uv | Sí | Sí | Sí | Un único programa |
 | Poetry | Sí | Sí | Experimental | Un paquete de Python |
 | PDM | Sí | Sí | Sí | Un paquete de Python |
-| Hatch | Sí | Sí | Sí | Un paquete de Python |
+| Hatch | Sí | Sí | Sí | Un paquete de  Python |
 | Pipenv | No, usa `Pipfile` | Sí | Solo con pyenv | Un paquete de Python |
 
 Pip a diferencia del resto no guarda las versiones exactas que se instalan, así que cada instalación puede ser diferente.No tiene un sistema para manejar las versiones de python, es decir, si la herramienta puede instalar y elegir la version de python que usa el proyecto. Por otro lado Pipenv, utiliza su propio formato Pipfile, en vez de usar pyproject.toml. Descartando ambos, se manejan las opciones de uv, Poetry, PDM y Hatch, sin embargo, se observa que uv es un único programa, mientras que los otros son paquetes de Python que hay que instalar con sus dependencias. En conlusión se elige uv, ya que a difrencia de los comentados, se trata de un gestor de dependencias que no añade dependencias que mantener. Además respeta la versión de Python que pide `requires-python` en `pyproject.toml` y en caso de que no está en el sistema, la descarga, de manera que la versión del lenguaje y las dependencias las controla la misma herramienta. Destacar que uv no permite definir tareas,así que no sirve como gestor de tareas.
@@ -59,7 +59,7 @@ Para comparar las distintas ocpiones se han tomados varios criterios de la sigui
 | Herramienta | Configuración | Entornos | Empaquetado | Varias versiones de Python | Multiplataforma | Estándar | Qué hay que instalar |
 |---|---|---|---|---|---|---|---|
 | Hatch | Declarativa | Sí | Sí | Sí | Sí | No | Un paquete de Python |
-| Nox | Imperativa | Sí | No | Sí | Sí | No | Un paquete de Python |
+| Nox | Imperativa | Sí | No | Sí | Sí | No | Un paquete  de Python |
 | Tox | Declarativa | Sí | No | Sí | Sí | No | Un paquete de Python |
 | Make | Declarativa | No | No | No | Limitado | Sí (POSIX) | Nada |
 | Just | Declarativa | No | No | No | Sí | No | Un programa aparte |
