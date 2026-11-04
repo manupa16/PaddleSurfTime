@@ -13,7 +13,7 @@ Para comparar las distintas opciones que se han investigado, se han seguido unos
 - **Tiempo de instalación del proyecto:** lo que tarda en instalar el proyecto con sus dependencias.
 
 | Herramienta | Archivo de bloqueo | Gestión del intérprete de Python | Qué hay que instalar | Espacio que ocupa | Tiempo de instalación del proyecto |
-|---|---|---|---|
+|---|---|---|---|---|---|
 | uv | Sí | Sí | Un único programa | 36 MB (uv) + 324KB (uvx) | 0,035 s |
 | Poetry | Sí | Experimental | Un paquete de Python | 65 MB | 2,021 s |
 | PDM | Sí | Sí | Un paquete de Python | 32 MB | 2,414 s |
@@ -28,6 +28,11 @@ Medida de uv:
 ![Mediciones de Pdm](medir_pdm.png)
 
 ![Mediciones de Hatch](medir_hatch.png)
+
+Además de los criterios de pydevtools, se han medido el espacio que ocupa cada herramienta y el tiempo que tarda en instalar el proyecto. Se han incluido porque según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación y de ejecución es esencial, luego ambos criterios son muy relevantes.
+
+Hatch se descarta porque en la prueba no se generó ningún archivo de bloqueo y además es el que más ocupa 78 MB y el que más tarda con unos 4,270 s. Por otro lado Poetry puede instalar la versión de Python que pide el proyecto, pero esa función todavía está en pruebas, además de que ocupa 65 MB.
+Entre Pdm y uv, PDM es algo más liego, pero uv tarda muchísimo menos, además de que uv es un único programa, mientras que PDM es un paquete de Python que trae sus propias depdencias. Por todo lo comentado y observado en los distintos criterios se elige uv.
 
 
 
