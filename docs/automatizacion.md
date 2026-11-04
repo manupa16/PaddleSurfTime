@@ -9,14 +9,25 @@ Para comparar las distintas opciones que se han investigado, se han seguido unos
 - **Archivo de bloqueo:** si fija la versión exacta de cada dependencia.
 - **Gestión del intérprete de Python:** si puede instalar y elegir la versión de Python que usa el proyecto.
 - **Qué hay que instalar:** qué hace falta para usarlo.
+- **Espacio que ocupa:** lo que ocupa la herramienta una vez instalada.
+- **Tiempo de instalación del proyecto:** lo que tarda en instalar el proyecto con sus dependencias.
 
-| Herramienta | Archivo de bloqueo | Gestión del intérprete de Python | Qué hay que instalar |
+| Herramienta | Archivo de bloqueo | Gestión del intérprete de Python | Qué hay que instalar | Espacio que ocupa | Tiempo de instalación del proyecto |
 |---|---|---|---|
-| uv | Sí | Sí | Un único programa |
-| Poetry | Sí | Experimental | Un paquete de Python |
-| PDM | Sí | Sí | Un paquete de Python |
-| Hatch | Sí | Sí | Un paquete de Python |
+| uv | Sí | Sí | Un único programa | 36 MB (uv) + 324KB (uvx) | 0,035 s |
+| Poetry | Sí | Experimental | Un paquete de Python | 65 MB | 2,021 s |
+| PDM | Sí | Sí | Un paquete de Python | 32 MB | 2,414 s |
+| Hatch | No | Sí | Un paquete de Python | 78 MB | 4,270 s |
 
+Medida de uv:
+
+![Mediciones de uv](medir_uv.png)
+
+![Mediciones de Poetry](medir_poetry.png)
+
+![Mediciones de Pdm](medir_pdm.png)
+
+![Mediciones de Hatch](medir_hatch.png)
 
 
 
