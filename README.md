@@ -19,7 +19,7 @@ El proyecto está en fase de planificación, están definidos los usuarios, hist
 
 ## Comprobación del código
 
-La clase principal es `PlayasDeLaCosta` localizada en `src/paddlesurf_time/playas_de_la_costa.py`. Se encarga de guardar las playas identificadas por su nombre y municipio, con la orientación de cada una y las condiciones del mar a cada hora.
+La clase principal es `PlayasDeLaCosta` localizada en `src/paddlesurf_time/playas_de_la_costa.py`. Se encarga de guardar las playas identificadas por su nombre y municipio, con la orientación de cada una y las condiciones del mar a cada hora. En la aplicación esta clase se consultará para saber, antes de salir de casa, si una playa estará apta para practicar paddle surf a la hora a la que se va a llegar, a partir de la orientanción del mar en esa hora.
 
 Es necesario `make` y Python 3.14. Con pyenv se instala así:
 
