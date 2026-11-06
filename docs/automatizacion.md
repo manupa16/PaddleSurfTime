@@ -9,7 +9,7 @@ Para comparar las distintas opciones que se han investigado, se han seguido unos
 - **Lockfile:** si genera un archivo con la versión exacta de cada dependencia, para que el entorno sea el mismo en cualquier máquina donde se instale.
 - **Gestión del intérprete de Python:** si puede instalar y elegir la versión de Python que usa el proyecto.
 - **¿Hay que instalar algo?:** si hace falta instalar algo antes de poder usarlo.
-- **Espacio que ocupa:** lo que ocupa la herramienta una vez instalada.
+- **Espacio a ocupar:** lo que ocupa la herramienta una vez instalada.
 - **Tiempo de instalación de la herramienta:** lo que tarda en instalarse el propio gestor.
 - **Tiempo de instalación del proyecto:** lo que tarda en instalar el proyecto con sus dependencias.
 
