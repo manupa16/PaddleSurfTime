@@ -6,9 +6,9 @@ Antes de nada destacar que un PEP se trata de un documento de diseño que inform
  
 Para comparar las distintas opciones que se han investigado, se han seguido unos criterios de la página [pydevtools](https://pydevtools.com/handbook/explanation/which-python-package-manager-should-i-use/), a saber son:
 
-- **Lockfile:** si fija la versión exacta de cada dependencia.
+- **Lockfile:** si genera un archivo con la versión exacta de cada dependencia, para que el entorno sea el mismo en cualquier máquina donde se instale.
 - **Gestión del intérprete de Python:** si puede instalar y elegir la versión de Python que usa el proyecto.
-- **¿Hay que instalar algo?:** si hace falta instalar algo antes de poder usarla
+- **¿Hay que instalar algo?:** si hace falta instalar algo antes de poder usarlo.
 - **Espacio que ocupa:** lo que ocupa la herramienta una vez instalada.
 - **Tiempo de instalación de la herramienta:** lo que tarda en instalarse el propio gestor.
 - **Tiempo de instalación del proyecto:** lo que tarda en instalar el proyecto con sus dependencias.
@@ -17,10 +17,10 @@ Destacar que debajo de la tabla se incluyen unas capturas, para constrastar los 
 
 | Herramienta | Lockfile | Gestión del intérprete de Python | Hay que instalar algo | Espacio que ocupa | Tiempo de instalación de la herramienta | Tiempo de instalación del proyecto |
 |---|---|---|---|---|---|---|
-| uv | Sí | Sí | Un único programa | 36 MB (uv) + 324KB (uvx) | 1,632 s | 0,035 s |
-| Poetry | Sí | Experimental | Un paquete de Python | 65 MB | 2,050 s | 2,021 s |
-| PDM | Sí | Sí | Un paquete de Python | 32 MB | 1,471 s | 2,414 s |
-| Hatch | No | Sí | Un paquete de Python | 78 MB | 3,027 s | 4,270 s |
+| uv | Sí | Sí | No, es un único programa | 36 MB (uv) + 324KB (uvx) | 1,632 s | 0,035 s |
+| Poetry | Sí | Experimental | Sí, Python | 65 MB | 2,050 s | 2,021 s |
+| PDM | Sí | Sí | Sí, Python | 32 MB | 1,471 s | 2,414 s |
+| Hatch | Con plugin | Sí | Sí, Python | 78 MB | 3,027 s | 4,270 s |
 
 Medida de uv:
 
@@ -56,10 +56,11 @@ Tiempo de instalación de Hatch:
 
 
 
-Además de los criterios de pydevtools, se han incluido el espacio que ocupa cada herramienta, lo que tarda en instalarse y lo que tarda en instalar el proyecto. Se han incluido porque según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación y de ejecución es esencial. En un workflow la máquina empieza vacía, así que en cada ejecución hay que instalar primero el gestor y después el proyecto.
+Además de los criterios de pydevtools, se han incluido el espacio que ocupa cada herramienta, lo que tarda en instalarse y lo que tarda en instalar el proyecto. Se han incluido porque según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación y de ejecución es esencial. En un workflow sin caché cada ejecución empieza en un entorno vacío, así que hay que instalar primero el gestor y después el proyecto, y los dos tiempos se suman.
 
-Hatch se descarta porque en la prueba no se generó ningún lockfile y además es el que más ocupa 78 MB y el que más tarda con unos 4,270 s. Por otro lado Poetry puede instalar la versión de Python que pide el proyecto, pero esa función todavía está en pruebas, además de que ocupa 65 MB.
-Entre Pdm y uv, PDM es algo más liego, pero uv tarda muchísimo menos, además de que uv es un único programa, mientras que PDM es un paquete de Python que trae sus propias depdencias. Por todo lo comentado y observado en los distintos criterios se elige uv.
+Hatch no trae lockfile. Para tener el mismo entorno en distintas máquinas hay que añadir el plugin hatch-pip-compile, que genera el lockfile con pip-compile y vuelve a sincronizar el entorno cuando cambian las dependencias. Es decir, lo que en uv, Poetry o PDM viene de serie, en Hatch depende de instalar algo más. Además es el que más ocupa (78 MB), el que más tarda en instalarse (3,027 s) y el que más tarda en instalar el proyecto (4,270 s), por lo que se descarta. Por otro lado, Poetry puede instalar la versión de Python que pide el proyecto, pero esa función todavía es experimental, además de que ocupa 65 MB.
+
+Entre PDM y uv, PDM ocupa algo menos y se instala un poco antes, pero uv instala el proyecto mucho más rápido. Sumando los dos tiempos, uv tarda en total 1,667 s y PDM 3,885 s. Además, uv es un único programa, mientras que PDM es un paquete de Python que trae sus propias dependencias. Por todo esto se elige uv.
 
 
 
