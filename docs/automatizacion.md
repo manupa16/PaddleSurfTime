@@ -20,7 +20,7 @@ Destacar que debajo de la tabla se incluyen unas capturas, para constrastar los 
 | uv | Sí | Sí | No, es un único programa | 36 MB (uv) + 324KB (uvx) | 1,632 s | 0,035 s |
 | Poetry | Sí | Experimental | Sí, Python | 65 MB | 2,050 s | 2,021 s |
 | PDM | Sí | Sí | Sí, Python | 32 MB | 1,471 s | 2,414 s |
-| Hatch | Con plugin | Sí | Sí, Python | 78 MB | 3,027 s | 4,270 s |
+| Hatch | Sí | Sí | Sí, Python | 78 MB | 3,027 s | 4,270 s |
 
 Medida de uv:
 
@@ -58,7 +58,7 @@ Tiempo de instalación de Hatch:
 
 Además de los criterios de pydevtools, se han incluido el espacio que ocupa cada herramienta, lo que tarda en instalarse y lo que tarda en instalar el proyecto. Se han incluido porque según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación y de ejecución es esencial. En un workflow sin caché cada ejecución empieza en un entorno vacío, así que hay que instalar primero el gestor y después el proyecto, y los dos tiempos se suman.
 
-Hatch no trae lockfile. Para tener el mismo entorno en distintas máquinas hay que añadir el plugin hatch-pip-compile, que genera el lockfile con pip-compile y vuelve a sincronizar el entorno cuando cambian las dependencias. Es decir, lo que en uv, Poetry o PDM viene de serie, en Hatch depende de instalar algo más. Además es el que más ocupa (78 MB), el que más tarda en instalarse (3,027 s) y el que más tarda en instalar el proyecto (4,270 s), por lo que se descarta. Por otro lado, Poetry puede instalar la versión de Python que pide el proyecto, pero esa función todavía es experimental, además de que ocupa 65 MB.
+Hasta la versión 1.17 (junio de 2026), Hatch no traía lockfile y, para tener el mismo entorno en distintas máquinas, había que añadir el plugin hatch-pip-compile, que lo generaba con pip-compile. Desde esa versión ya lo trae de serie, con `hatch lock`, que genera un `pylock.toml` siguiendo el PEP 751. Pero es el que más ocupa (78 MB), el que más tarda en instalarse (3,027 s) y el que más tarda en instalar el proyecto (4,270 s), por lo que se descarta. Por otro lado, Poetry puede instalar la versión de Python que pide el proyecto, pero esa función todavía es experimental, además de que ocupa 65 MB.
 
 Entre PDM y uv, PDM ocupa algo menos y se instala un poco antes, pero uv instala el proyecto mucho más rápido. Sumando los dos tiempos, uv tarda en total 1,667 s y PDM 3,885 s. Además, PDM es un paquete de Python que trae sus propias dependencias, mientras que uv es un único programa, donde en un entorno vacío como un workflow, se instala sin necesidad de Python, descarga él mismo la versión de Python que pide el proyecto e instala las dependencias desde su `lockfile`, luego con una sola herramienta el entorno queda siempre igual. Por todo esto se elige uv.
 
