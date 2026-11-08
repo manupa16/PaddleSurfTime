@@ -3,3 +3,11 @@ name = "paddlesurftime"
 version = "0.3.0"
 requires-python = ">=3.14"
 dependencies = []
+
+[dependency-groups]
+dev = [
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+check = "python3 -m compileall -q src/paddlesurf_time"

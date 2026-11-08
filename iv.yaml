@@ -1,5 +1,5 @@
 lenguaje: python
 entidad: src/paddlesurf_time/playas_de_la_costa.py
 automatizar:
-  fichero: Makefile
-  orden: make
+  fichero: pyproject.toml
+  orden: uv run task
