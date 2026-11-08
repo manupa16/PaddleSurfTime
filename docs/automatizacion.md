@@ -55,39 +55,35 @@ Tiempo de instalación de Hatch:
 
 Se miden los dos tiempos porque, según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación es esencial. En un workflow sin caché cada ejecución empieza en un entorno vacío, así que hay que instalar primero el gestor y después el proyecto, y los dos tiempos se suman.
 
-Hatch es el que más tarda en instalarse (3,027 s) y en instalar el proyecto (4,270 s), y Poetry es el siguiente en instalar el proyecto (2,021 s), así que se descartan. Entre PDM y uv, PDM se instala un poco antes, pero uv instala el proyecto mucho más rápido: sumando los dos tiempos, uv tarda 1,667 s y PDM 3,885 s. Además, PDM necesita Python para instalarse y uv es un único programa que no necesita nada. Por eso se elige uv.
+Hatch es el que más tarda en instalarse (3,027 s) y en instalar el proyecto (4,270 s), y Poetry es el siguiente en instalar el proyecto (2,021 s), así que se descartan. Entre PDM y uv, PDM se instala un poco antes, pero uv instala el proyecto mucho más rápido,sumando los dos tiempos, uv tarda 1,667 s y PDM 3,885 s. Además, PDM necesita Python para instalarse y uv es un único programa que no necesita nada. Por eso se elige uv.
 
 ## Gestor de tareas
  
- Un gestor de tareas permite lanzar, como subcomandos de un solo programa, todas las tareas que hay que llevar a cabo en el proyecto definidas en un único fichero. Ahora mismo la única tarea del proyecto es comprobar la sintaxis (`check`).
+Un gestor de tareas permite lanzar, como subcomandos de un solo programa, todas las tareas que hay que llevar a cabo en el proyecto definidas en un único fichero. Ahora mismo la única tarea del proyecto es comprobar la sintaxis (`check`).
+Como el proyecto ya tiene el fichero `pyproject.toml`, se puede emplear un gestor de tareas que defina las tareas en ese mismo fichero, sin tener que añadir otro. make, just e invoke no lo utilizan, ya que cada uno necesita su propio fichero (`Makefile`, `justfile` y `tasks.py`), y uv no permite definir tareas, así que se plantean poethepoet y taskipy, que sí lo utilizan. Para elegir entre ellos se usan estos criterios:
 
-Se comparan make, invoke y just. Destacar que uv no permite definir tareas, luego no sirve como gestor de tareas. Los criterios a saber son los siguientes:
+- **Tiempo de instalación de la herramienta:** lo que tarda en descargarse e instalarse el gestor, ya que en un entorno vacío hay que instalarlo antes de lanzar ninguna tarea.
+- **Tiempo en ejecutar `check`:** lo que tarda en lanzar la tarea de comprobar la sintaxis.
 
-- **Estándar:** si la herramienta sigue un estándar.
-- **¿Hay que instalar algo?** si hace falta instalar algo antes de poder usarla.
-- **Espacio que ocupa:** lo que ocupa la herramienta una vez instalada.
-- **Tiempo en ejecutar check:** lo que tarda en lanzar la tarea de comprobar la sintaxis.
+| Herramienta | Tiempo de instalación de la herramienta | Tiempo en ejecutar `check` |
+|---|---|---|
+| poethepoet | 0,629 s | 0,539 s |
+| taskipy | 0,551 s | 0,273 s |
 
-Al igual que para el gestor de dependencias, se adjuntan capturas mostrando las mediciones, para constrastar los datos.
+Tiempo de instalación de poethepoet:
 
-| Herramienta | Estándar | Hay que instalar algo | Espacio que ocupa | Tiempo en ejecutar `check` |
-|---|---|---|---|---|
-| make | Sí (POSIX) | No | 284 KB | 0,106 s |
-| just | No | Sí, un único programa | 6,3 MB | 0,100 s |
-| invoke | No | Sí, un paquete de Python | 780 KB | 0,262 s |
+![Tiempo de instalación de poethepoet](instalar_poethepoet.png)
 
-Medida de Make:
+Tiempo de instalación de taskipy:
 
-![Mediciones de Make](medir_make.png)
+![Tiempo de instalación de taskipy](instalar_taskipy.png)
 
-Mediciones de Just:
+Medida de poethepoet:
 
-![Mediciones de Just](medir_just.png)
+![Mediciones de poethepoet](medir_poethepoet.png)
 
-Mediciones de Invoke:
+Medida de taskipy:
 
-![Mediciones de Invoke](medir_invoke.png)
+![Mediciones de taskipy](medir_taskipy.png)
 
-En la tabla se ve que invoke es un paquete de Python que hay que instalar y es el que más tarda en ejecutar `check`. Por otro lado, make y just tardan prácticamente lo mismo, pero lo que sí los diferencia es que make sigue un estándar (POSIX), no hay que instalar nada y ocupa 284 KB frente a los 6,3 MB de just, lo que importa en contenedores por la misma razón que para el gestor de dependencias.
-
-Por tanto, se elige make, donde cada objetivo del `Makefile` es una tarea que se lanza con `make<tarea>` . La tarea check ejecuta `python3 -m compileall -q src/paddlesurf_time`, que compila los ficheros del modelo sin ejecutarlos, comprobando solo su sintaxis.
+taskipy se instala antes y ejecuta `check` en la mitad de tiempo,sumando los dos, tarda 0,824 s frente a los 1,168 s de poethepoet. Por eso se elige taskipy, donde cada tarea se define en la sección `[tool.taskipy.tasks]` de `pyproject.toml` y se lanza con `task <tarea>`. La tarea `check` ejecuta `python3 -m compileall -q src/paddlesurf_time`, que compila los ficheros del modelo sin ejecutarlos, comprobando solo su sintaxis.
