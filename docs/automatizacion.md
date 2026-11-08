@@ -4,23 +4,20 @@
  
 Antes de nada destacar que un PEP se trata de un documento de diseño que informa a la comunidad de Python o describe una nueva característica del lenguaje, de sus procesos o de su entorno. El fichero estándar para declarar las dependencias es `pyproject.toml`, ya que lo definen varios PEP, `PEP 518` crea el fichero para las dependencias necesarias para construir el proyecto. El `PEP 621` define en él la tabla `[project]`, donde van las dependencias del proyecto, y el `PEP 735` se encarga de definir `[dependency-groups]` para las dependencias que no forman parte del paquete que se distribuye. En otras asignaturas, se suele usar `requirements.txt`, pero el propio `PEP 735` indica que no está estandarizado ya que son opciones para `pip` y la documentación de `pip` dice que su formato solo está pensado para que lo lea pip. Luego solo se tienen en cuenta los gestores que trabajan con `pyproject.toml`.
  
-Para comparar las distintas opciones que se han investigado, se han seguido unos criterios de la página [pydevtools](https://pydevtools.com/handbook/explanation/which-python-package-manager-should-i-use/), a saber son:
+Todos los gestores que se comparan tienen que poder hacer despliegues idempotentes, es decir, que al instalar el proyecto en cualquier máquina, y las veces que sea, quede siempre el mismo entorno con las mismas versiones de las dependencias. Esto es necesario porque el proyecto se va a instalar en workflows y contenedores que empiezan vacíos, y si cada instalación sacara versiones distintas, los tests podrían pasar en una y fallar en otra sin haber cambiado el código. Los cuatro lo cumplen guardando la versión exacta de cada dependencia (uv en `uv.lock`, Poetry en `poetry.lock`, PDM en `pdm.lock` y Hatch en `pylock.toml`) e instalando a partir de ella, así que no sirve para elegir entre ellos y no se incluye en la tabla. Para elegir se usan estos criterios:
 
-- **Lockfile:** si genera un archivo con la versión exacta de cada dependencia, para que el entorno sea el mismo en cualquier máquina donde se instale.
-- **Gestión del intérprete de Python:** si puede instalar y elegir la versión de Python que usa el proyecto.
-- **¿Hay que instalar algo?:** si hace falta instalar algo antes de poder usarlo.
-- **Espacio a ocupar:** lo que ocupa la herramienta una vez instalada.
-- **Tiempo de instalación de la herramienta:** lo que tarda en instalarse el propio gestor.
+- **¿Hay que instalar algo?:** si hace falta instalar algo antes de poder usarlo. En un entorno vacío, cada cosa que haya que instalar antes es tiempo que se suma y un paso más que puede fallar.
+- **Tiempo de instalación de la herramienta:** lo que tarda en descargarse e instalarse el propio gestor.
 - **Tiempo de instalación del proyecto:** lo que tarda en instalar el proyecto con sus dependencias.
 
 Destacar que debajo de la tabla se incluyen unas capturas, para constrastar los datos,sobre las diversas mediciones realizadas sobre los gestores.
 
-| Herramienta | Lockfile | Gestión del intérprete de Python | Hay que instalar algo | Espacio que ocupa | Tiempo de instalación de la herramienta | Tiempo de instalación del proyecto |
-|---|---|---|---|---|---|---|
-| uv | Sí | Sí | No, es un único programa | 36 MB (uv) + 324KB (uvx) | 1,632 s | 0,035 s |
-| Poetry | Sí | Experimental | Sí, Python | 65 MB | 2,050 s | 2,021 s |
-| PDM | Sí | Sí | Sí, Python | 32 MB | 1,471 s | 2,414 s |
-| Hatch | Sí | Sí | Sí, Python | 78 MB | 3,027 s | 4,270 s |
+| Herramienta | Hay que instalar algo | Tiempo de instalación de la herramienta | Tiempo de instalación del proyecto |
+|---|---|---|---|
+| uv | No, es un único programa | 1,632 s | 0,035 s |
+| Poetry | Sí, Python | 2,050 s | 2,021 s |
+| PDM | Sí, Python | 1,471 s | 2,414 s |
+| Hatch | Sí, Python | 3,027 s | 4,270 s |
 
 Medida de uv:
 
@@ -56,11 +53,9 @@ Tiempo de instalación de Hatch:
 
 
 
-Además de los criterios de pydevtools, se han incluido el espacio que ocupa cada herramienta, lo que tarda en instalarse y lo que tarda en instalar el proyecto. Se han incluido porque según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación y de ejecución es esencial. En un workflow sin caché cada ejecución empieza en un entorno vacío, así que hay que instalar primero el gestor y después el proyecto, y los dos tiempos se suman.
+Se miden los dos tiempos porque, según indica el guion, lo que se elija ahora se va a usar en entornos donde la velocidad de instalación es esencial. En un workflow sin caché cada ejecución empieza en un entorno vacío, así que hay que instalar primero el gestor y después el proyecto, y los dos tiempos se suman.
 
-Hasta la versión 1.17, Hatch no traía lockfile y, para tener el mismo entorno en distintas máquinas, había que añadir el plugin hatch-pip-compile, que lo generaba con pip-compile. Desde esa versión ya lo trae de serie, con `hatch lock`, que genera un `pylock.toml` siguiendo el PEP 751. Pero es el que más ocupa (78 MB), el que más tarda en instalarse (3,027 s) y el que más tarda en instalar el proyecto (4,270 s), por lo que se descarta. Por otro lado, Poetry puede instalar la versión de Python que pide el proyecto, pero esa función todavía es experimental, además de que ocupa 65 MB.
-
-Entre PDM y uv, PDM ocupa algo menos y se instala un poco antes, pero uv instala el proyecto mucho más rápido. Sumando los dos tiempos, uv tarda en total 1,667 s y PDM 3,885 s. Además, PDM es un paquete de Python que trae sus propias dependencias, mientras que uv es un único programa, donde en un entorno vacío como un workflow, se instala sin necesidad de Python, descarga él mismo la versión de Python que pide el proyecto e instala las dependencias desde su `lockfile`, luego con una sola herramienta el entorno queda siempre igual. Por todo esto se elige uv.
+Hatch es el que más tarda en instalarse (3,027 s) y en instalar el proyecto (4,270 s), y Poetry es el siguiente en instalar el proyecto (2,021 s), así que se descartan. Entre PDM y uv, PDM se instala un poco antes, pero uv instala el proyecto mucho más rápido: sumando los dos tiempos, uv tarda 1,667 s y PDM 3,885 s. Además, PDM necesita Python para instalarse y uv es un único programa que no necesita nada. Por eso se elige uv.
 
 ## Gestor de tareas
  
