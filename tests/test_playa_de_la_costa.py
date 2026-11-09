@@ -97,3 +97,21 @@ class TestVientoPeligroso(unittest.TestCase):
         playas = PlayasDeLaCosta(orientaciones_grados={calblanque: 10})
         condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=350))
         self.assertFalse(playas.viento_peligroso(calblanque, condiciones))
+
+class TestVientoYOlasPasanDelLimite(unittest.TestCase):
+    def setUp(self):
+        self.playas = PlayasDeLaCosta()
+
+    def test_viento_de_bolnuevo_a_las_nueve_no_es_demasiado_fuerte(self):
+        self.assertFalse(self.playas.viento_demasiado_fuerte(CONDICIONES))
+
+    def test_viento_de_18_kmh_es_demasiado_fuerte(self):
+        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=18, direccion_grados=248))
+        self.assertTrue(self.playas.viento_demasiado_fuerte(condiciones))
+
+    def test_olas_de_bolnuevo_a_las_nueve_no_son_demasiado_altas(self):
+        self.assertFalse(self.playas.olas_demasiado_altas(CONDICIONES))
+
+    def test_olas_de_0_6_metros_son_demasiado_altas(self):
+        condiciones = replace(CONDICIONES, altura_olas_metros=0.6)
+        self.assertTrue(self.playas.olas_demasiado_altas(condiciones))

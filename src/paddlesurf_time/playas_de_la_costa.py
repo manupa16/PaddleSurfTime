@@ -33,3 +33,9 @@ class PlayasDeLaCosta:
     def viento_peligroso(self, playa: Playa, condiciones: CondicionesMar) -> bool:
         diferencia = abs(condiciones.viento.direccion_grados - self.orientaciones_grados[playa])
         return min(diferencia, 360 - diferencia) >= self.umbrales.margen_viento_peligroso_grados
+
+    def viento_demasiado_fuerte(self, condiciones: CondicionesMar) -> bool:
+        return condiciones.viento.fuerza_kmh >= self.umbrales.fuerza_viento_kmh
+
+    def olas_demasiado_altas(self, condiciones: CondicionesMar) -> bool:
+        return condiciones.altura_olas_metros >= self.umbrales.altura_olas_metros
