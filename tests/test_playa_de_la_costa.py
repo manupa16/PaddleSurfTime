@@ -36,3 +36,22 @@ class TestHoraAConsultar(unittest.TestCase):
     def test_sin_datos_de_la_hora_siguiente_da_error(self):
         with self.assertRaises(ValueError):
             self.playas.hora_a_consultar(BOLNUEVO, datetime(2026, 7, 15, 23, 50))
+
+
+class TestCondicionesALaLlegada(unittest.TestCase):
+    def setUp(self):
+        self.playas = PlayasDeLaCosta(
+            condiciones={BOLNUEVO: {datetime(2026, 7, 15, 9): CONDICIONES}}
+        )
+
+    def test_da_las_condiciones_de_bolnuevo_a_las_nueve(self):
+        condiciones = self.playas.condiciones_a_la_llegada(
+            BOLNUEVO, datetime(2026, 7, 15, 9)
+        )
+        self.assertEqual(condiciones, CONDICIONES)
+
+    def test_calblanque_sin_condiciones_da_error(self):
+        with self.assertRaises(KeyError):
+            self.playas.condiciones_a_la_llegada(
+                ("Calblanque", "Cartagena"), datetime(2026, 7, 15, 9)
+            )

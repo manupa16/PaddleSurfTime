@@ -22,3 +22,6 @@ class PlayasDeLaCosta:
         if hora not in self.condiciones[playa]:
             raise ValueError(f"No hay condiciones de {playa} a las {hora}")
         return hora
+
+    def condiciones_a_la_llegada(self, playa: Playa, llegada: datetime) -> CondicionesMar:
+        return self.condiciones[playa][self.hora_a_consultar(playa, llegada)]
