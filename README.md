@@ -19,7 +19,7 @@ El proyecto está en fase de planificación, están definidos los usuarios, hist
 
 ## Comprobación del código
 
-La clase principal es `PlayasDeLaCosta` localizada en `src/paddlesurf_time/playas_de_la_costa.py`. Se encarga de guardar las playas identificadas por su nombre y municipio, con la orientación de cada una y las condiciones del mar a cada hora. En la aplicación esta clase se consultará para saber, antes de salir de casa, si una playa estará apta para practicar paddle surf a la hora a la que se va a llegar, a partir de la orientanción del mar en esa hora.
+La clase principal es `PlayasDeLaCosta` localizada en `src/paddlesurf_time/playas_de_la_costa.py`. Se encarga de guardar las playas identificadas por su nombre y municipio, con la orientación de cada una y las condiciones del mar a cada hora. En la aplicación esta clase se consultará para saber, antes de salir de casa, si una playa estará apta para practicar paddle surf a la hora a la que se va a llegar, a partir de la orientación del mar en esa hora. Para ello, a partir de la playa y la hora de llegada, devuelve los motivos por los que no se puede salir (la bandera, el viento de tierra, el viento fuerte o las olas), y si no hay ninguno la playa está apta.
 
 Es necesario [uv](https://docs.astral.sh/uv/getting-started/installation/), que descarga Python 3.14 si no está en el sistema e instala taskipy, el gestor de tareas. Se instala así:
 
@@ -34,6 +34,7 @@ uv run task check
 ```
 
 Si el código es correcto, se termina sin mostrar ningún error, en caso contrario, se indica el fichero y la línea donde está el error de sintaxis.
+
 Para ejecutar los tests, desde la raíz del repositorio se ejecuta:
 
 ```
