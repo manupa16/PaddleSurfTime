@@ -49,3 +49,7 @@ Después aplicaremos una heurística que:
 2. Compara la dirección del viento con la orientación de cada playa, ya que el el viento que sopla mar adentro es el peligroso.
 3. Verifica que el viento y las olas se encuentran por debajo de un umbral.
 4. Por último, elige la mejor de las playas que quedan, teniendo en cuenta cuántas horas seguidas se mantienen las buenas condiciones y la distancia a la que está cada una.
+
+### Umbrales
+
+Para poder salir con la tabla el viento tiene que ser menor de 18 km/h y las olas tienen que medir menos de 0,6 m. Estos valores salen de la escala de Beaufort, que divide el viento en niveles según su velocidad. Hasta el nivel 3 se puede remar sin problema según la [American Canoe Association](https://americancanoe.org/wp-content/uploads/2025/06/Beaufort-Scale-for-Paddlers.pdf), y ese nivel acaba en 10 nudos, unos 18 km/h, luego ese es el límite del viento. Con ese viento, las olas suelen medir 0,6 m según el [Met Office](https://weather.metoffice.gov.uk/guides/coast-and-sea/beaufort-scale), por lo que ese es el límite de las olas.
