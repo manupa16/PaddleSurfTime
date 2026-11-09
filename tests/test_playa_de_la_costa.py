@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import replace
 from datetime import datetime
 
 from paddlesurf_time.bandera import Bandera
@@ -55,3 +56,23 @@ class TestCondicionesALaLlegada(unittest.TestCase):
             self.playas.condiciones_a_la_llegada(
                 ("Calblanque", "Cartagena"), datetime(2026, 7, 15, 9)
             )
+
+
+class TestBanderaImpideSalir(unittest.TestCase):
+    def setUp(self):
+        self.playas = PlayasDeLaCosta()
+
+    def test_bolnuevo_con_bandera_verde_no_impide(self):
+        self.assertFalse(self.playas.bandera_impide_salir(CONDICIONES))
+
+    def test_bolnuevo_con_bandera_amarilla_impide(self):
+        condiciones = replace(CONDICIONES, bandera=Bandera.AMARILLA)
+        self.assertTrue(self.playas.bandera_impide_salir(condiciones))
+
+    def test_bolnuevo_con_bandera_roja_impide(self):
+        condiciones = replace(CONDICIONES, bandera=Bandera.ROJA)
+        self.assertTrue(self.playas.bandera_impide_salir(condiciones))
+
+    def test_bolnuevo_sin_bandera_conocida_no_impide(self):
+        condiciones = replace(CONDICIONES, bandera=None)
+        self.assertFalse(self.playas.bandera_impide_salir(condiciones))

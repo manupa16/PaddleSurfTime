@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
+from paddlesurf_time.bandera import Bandera
 
 type Playa = tuple[str, str]
 
@@ -25,3 +26,6 @@ class PlayasDeLaCosta:
 
     def condiciones_a_la_llegada(self, playa: Playa, llegada: datetime) -> CondicionesMar:
         return self.condiciones[playa][self.hora_a_consultar(playa, llegada)]
+
+    def bandera_impide_salir(self, condiciones: CondicionesMar) -> bool:
+        return condiciones.bandera in (Bandera.AMARILLA, Bandera.ROJA)
