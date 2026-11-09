@@ -3,3 +3,4 @@ entidad: src/paddlesurf_time/playas_de_la_costa.py
 automatizar:
   fichero: pyproject.toml
   orden: uv run task
+test: tests/test_playas_de_la_costa.py
