@@ -11,3 +11,4 @@ dev = [
 
 [tool.taskipy.tasks]
 check = "python3 -m compileall -q src/paddlesurf_time"
+test = "PYTHONPATH=src python3 -B -m unittest discover -s tests"
