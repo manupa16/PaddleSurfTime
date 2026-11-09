@@ -49,3 +49,4 @@ Si todos los tests pasan al final aparece `OK` y en caso contrario se indica qu�
 - [Juego de rol](docs/juego_de_rol.md)
 - [Configuración del entorno](docs/entorno.md)
 - [Elección de herramientas](docs/automatizacion.md)
+- [Herramientas para los tests](docs/tests.md)
