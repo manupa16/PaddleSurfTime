@@ -115,3 +115,34 @@ class TestVientoYOlasPasanDelLimite(unittest.TestCase):
     def test_olas_de_0_6_metros_son_demasiado_altas(self):
         condiciones = replace(CONDICIONES, altura_olas_metros=0.6)
         self.assertTrue(self.playas.olas_demasiado_altas(condiciones))
+
+class TestMotivosNoApta(unittest.TestCase):
+    def setUp(self):
+        self.nueve = datetime(2026, 7, 15, 9)
+        self.playas = PlayasDeLaCosta(
+            orientaciones_grados={BOLNUEVO: 165},
+            condiciones={BOLNUEVO: {self.nueve: CONDICIONES}},
+        )
+
+    def test_bolnuevo_a_las_nueve_es_apta(self):
+        self.assertEqual(self.playas.motivos_no_apta(BOLNUEVO, self.nueve), [])
+
+    def test_con_bandera_roja_el_motivo_es_la_bandera(self):
+        self.playas.condiciones[BOLNUEVO][self.nueve] = replace(CONDICIONES, bandera=Bandera.ROJA)
+        self.assertEqual(self.playas.motivos_no_apta(BOLNUEVO, self.nueve), ["bandera"])
+
+    def test_con_viento_de_tierra_el_motivo_es_el_viento_de_tierra(self):
+        self.playas.condiciones[BOLNUEVO][self.nueve] = replace(
+            CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=345)
+        )
+        self.assertEqual(self.playas.motivos_no_apta(BOLNUEVO, self.nueve), ["viento de tierra"])
+
+    def test_con_viento_de_18_kmh_el_motivo_es_el_viento_fuerte(self):
+        self.playas.condiciones[BOLNUEVO][self.nueve] = replace(
+            CONDICIONES, viento=Viento(fuerza_kmh=18, direccion_grados=248)
+        )
+        self.assertEqual(self.playas.motivos_no_apta(BOLNUEVO, self.nueve), ["viento fuerte"])
+
+    def test_con_olas_de_0_6_metros_el_motivo_son_las_olas(self):
+        self.playas.condiciones[BOLNUEVO][self.nueve] = replace(CONDICIONES, altura_olas_metros=0.6)
+        self.assertEqual(self.playas.motivos_no_apta(BOLNUEVO, self.nueve), ["olas"])

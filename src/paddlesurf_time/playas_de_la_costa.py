@@ -39,3 +39,16 @@ class PlayasDeLaCosta:
 
     def olas_demasiado_altas(self, condiciones: CondicionesMar) -> bool:
         return condiciones.altura_olas_metros >= self.umbrales.altura_olas_metros
+
+    def motivos_no_apta(self, playa: Playa, llegada: datetime) -> list[str]:
+        condiciones = self.condiciones_a_la_llegada(playa, llegada)
+        motivos = []
+        if self.bandera_impide_salir(condiciones):
+            motivos.append("bandera")
+        if self.viento_peligroso(playa, condiciones):
+            motivos.append("viento de tierra")
+        if self.viento_demasiado_fuerte(condiciones):
+            motivos.append("viento fuerte")
+        if self.olas_demasiado_altas(condiciones):
+            motivos.append("olas")
+        return motivos
