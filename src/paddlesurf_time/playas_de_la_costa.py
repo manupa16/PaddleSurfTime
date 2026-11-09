@@ -14,7 +14,7 @@ class PlayasDeLaCosta:
     condiciones: dict[Playa, dict[datetime, CondicionesMar]] = field(
         default_factory=dict
     )
-    umbrales: Umbrales = Umbrales(fuerza_viento_kmh=18, altura_olas_metros=0.6)
+    umbrales: Umbrales = Umbrales(fuerza_viento_kmh=18, altura_olas_metros=0.6, margen_viento_peligroso_grados=112.5)
 
     def hora_a_consultar(self, playa: Playa, llegada: datetime) -> datetime:
         hora = llegada.replace(minute=0, second=0, microsecond=0)
@@ -29,3 +29,7 @@ class PlayasDeLaCosta:
 
     def bandera_impide_salir(self, condiciones: CondicionesMar) -> bool:
         return condiciones.bandera in (Bandera.AMARILLA, Bandera.ROJA)
+
+    def viento_peligroso(self, playa: Playa, condiciones: CondicionesMar) -> bool:
+        diferencia = abs(condiciones.viento.direccion_grados - self.orientaciones_grados[playa])
+        return min(diferencia, 360 - diferencia) >= self.umbrales.margen_viento_peligroso_grados

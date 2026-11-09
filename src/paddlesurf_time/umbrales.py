@@ -5,3 +5,4 @@ from dataclasses import dataclass
 class Umbrales:
     fuerza_viento_kmh: float
     altura_olas_metros: float
+    margen_viento_peligroso_grados: float

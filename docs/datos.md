@@ -53,3 +53,5 @@ Después aplicaremos una heurística que:
 ### Umbrales
 
 Para poder salir con la tabla el viento tiene que ser menor de 18 km/h y las olas tienen que medir menos de 0,6 m. Estos valores salen de la escala de Beaufort, que divide el viento en niveles según su velocidad. Hasta el nivel 3 se puede remar sin problema según la [American Canoe Association](https://americancanoe.org/wp-content/uploads/2025/06/Beaufort-Scale-for-Paddlers.pdf), y ese nivel acaba en 10 nudos, unos 18 km/h, luego ese es el límite del viento. Con ese viento, las olas suelen medir 0,6 m según el [Met Office](https://weather.metoffice.gov.uk/guides/coast-and-sea/beaufort-scale), por lo que ese es el límite de las olas.
+
+El viento se considera peligroso cuando la diferencia entre su dirección y la orientación de la playa es de 112,5° o más, ya que a partir de ahí sopla desde tierra hacia el mar según [KitesurfingOfficial](https://kitesurfingofficial.com/tools/wind-directions). Por ejemplo, en Bolnuevo, que mira a 165°, el viento que viene desde 248° tiene una diferencia de 83°, luego no es peligroso.

@@ -76,3 +76,24 @@ class TestBanderaImpideSalir(unittest.TestCase):
     def test_bolnuevo_sin_bandera_conocida_no_impide(self):
         condiciones = replace(CONDICIONES, bandera=None)
         self.assertFalse(self.playas.bandera_impide_salir(condiciones))
+
+class TestVientoPeligroso(unittest.TestCase):
+    def setUp(self):
+        self.playas = PlayasDeLaCosta(orientaciones_grados={BOLNUEVO: 165})
+
+    def test_viento_lateral_en_bolnuevo_no_es_peligroso(self):
+        self.assertFalse(self.playas.viento_peligroso(BOLNUEVO, CONDICIONES))
+
+    def test_viento_de_tierra_en_bolnuevo_es_peligroso(self):
+        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=345))
+        self.assertTrue(self.playas.viento_peligroso(BOLNUEVO, condiciones))
+
+    def test_viento_justo_en_el_margen_es_peligroso(self):
+        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=278))
+        self.assertTrue(self.playas.viento_peligroso(BOLNUEVO, condiciones))
+
+    def test_al_dar_la_vuelta_al_circulo_no_es_peligroso(self):
+        calblanque = ("Calblanque", "Cartagena")
+        playas = PlayasDeLaCosta(orientaciones_grados={calblanque: 10})
+        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=350))
+        self.assertFalse(playas.viento_peligroso(calblanque, condiciones))
