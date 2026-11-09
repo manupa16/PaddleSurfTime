@@ -60,7 +60,7 @@ Hatch es el que más tarda en instalarse (3,027 s) y en instalar el proyecto (4,
 ## Gestor de tareas
  
 Un gestor de tareas permite lanzar, como subcomandos de un solo programa, todas las tareas que hay que llevar a cabo en el proyecto definidas en un único fichero. Ahora mismo la única tarea del proyecto es comprobar la sintaxis (`check`).
-Como el proyecto ya tiene el fichero `pyproject.toml`, se puede emplear un gestor de tareas que defina las tareas en ese mismo fichero, sin tener que añadir otro. make, just e invoke no lo utilizan, ya que cada uno necesita su propio fichero (`Makefile`, `justfile` y `tasks.py`), y uv no permite definir tareas, así que se plantean poethepoet y taskipy, que sí lo utilizan. Para elegir entre ellos se usan estos criterios:
+Como el proyecto ya tiene el fichero `pyproject.toml`, se puede emplear un gestor de tareas que defina las tareas en ese mismo fichero, sin tener que añadir otro. make, just e invoke no lo utilizan, ya que cada uno necesita su propio fichero (`Makefile`, `justfile` y `tasks.py`), y uv necesita una aplicación externa para definir tareas, así que se plantean poethepoet y taskipy, que sí lo utilizan. Para elegir entre ellos se usan estos criterios:
 
 - **Tiempo de instalación de la herramienta:** lo que tarda en descargarse e instalarse el gestor, ya que en un entorno vacío hay que instalarlo antes de lanzar ninguna tarea.
 - **Tiempo en ejecutar `check`:** lo que tarda en lanzar la tarea de comprobar la sintaxis.
