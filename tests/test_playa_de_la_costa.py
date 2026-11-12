@@ -15,6 +15,9 @@ CONDICIONES = CondicionesMar(
 )
 NUEVE = datetime(2026, 7, 15, 9)
 CALBLANQUE = ("Calblanque", "Cartagena")
+def con_viento_desde(direccion_grados):
+    return replace(CONDICIONES, viento=replace(CONDICIONES.viento, direccion_grados=direccion_grados))
+
 
 class TestHoraAConsultar(unittest.TestCase):
     def test_toma_la_hora_en_punto_mas_cercana(self):
@@ -60,7 +63,18 @@ class TestBanderaImpideSalir(unittest.TestCase):
 
 class TestVientoPeligroso(unittest.TestCase):
     def setUp(self):
-        self.playas = PlayasDeLaCosta(orientaciones_grados={BOLNUEVO: 165})
+        self.playas = PlayasDeLaCosta(orientaciones_grados={BOLNUEVO: 165, CALBLANQUE: 10})
+
+    def test_grados_entre_viento_y_orientacion(self):
+        casos = {
+            (BOLNUEVO, 248): 83,
+            (CALBLANQUE, 350): 20,
+        }
+        for (playa, direccion), grados in casos.items():
+            with self.subTest(playa=playa, direccion=direccion):
+                self.assertEqual(
+                    self.playas.grados_entre_viento_y_orientacion(playa, con_viento_desde(direccion)), grados
+                )
 
     def test_viento_lateral_en_bolnuevo_no_es_peligroso(self):
         self.assertFalse(self.playas.viento_peligroso(BOLNUEVO, CONDICIONES))

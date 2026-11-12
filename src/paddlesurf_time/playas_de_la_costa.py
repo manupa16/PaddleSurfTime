@@ -25,6 +25,10 @@ class PlayasDeLaCosta:
     def bandera_impide_salir(self, condiciones: CondicionesMar) -> bool:
         return condiciones.bandera in (Bandera.AMARILLA, Bandera.ROJA)
 
+    def grados_entre_viento_y_orientacion(self, playa: Playa, condiciones: CondicionesMar) -> int:
+        diferencia = abs(condiciones.viento.direccion_grados - self.orientaciones_grados[playa])
+        return min(diferencia, 360 - diferencia)
+
     def viento_peligroso(self, playa: Playa, condiciones: CondicionesMar) -> bool:
         diferencia = abs(condiciones.viento.direccion_grados - self.orientaciones_grados[playa])
         return min(diferencia, 360 - diferencia) >= self.umbrales.margen_viento_peligroso_grados
