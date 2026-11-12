@@ -93,12 +93,12 @@ class TestVientoYOlasPasanDelLimite(unittest.TestCase):
                 condiciones = replace(CONDICIONES, viento=replace(CONDICIONES.viento, fuerza_kmh=fuerza_kmh))
                 self.assertEqual(self.playas.viento_demasiado_fuerte(condiciones), demasiado_fuerte)
     
-    def test_olas_de_bolnuevo_a_las_nueve_no_son_demasiado_altas(self):
-        self.assertFalse(self.playas.olas_demasiado_altas(CONDICIONES))
-
-    def test_olas_de_0_6_metros_son_demasiado_altas(self):
-        condiciones = replace(CONDICIONES, altura_olas_metros=0.6)
-        self.assertTrue(self.playas.olas_demasiado_altas(condiciones))
+    def test_olas_demasiado_altas_a_partir_del_umbral(self):
+        casos = {0.4: False, 0.6: True}
+        for altura_olas_metros, demasiado_altas in casos.items():
+            with self.subTest(altura_olas_metros=altura_olas_metros):
+                condiciones = replace(CONDICIONES, altura_olas_metros=altura_olas_metros)
+                self.assertEqual(self.playas.olas_demasiado_altas(condiciones), demasiado_altas)
 
 class TestMotivosNoApta(unittest.TestCase):
     def setUp(self):
