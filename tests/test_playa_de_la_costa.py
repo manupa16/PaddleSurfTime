@@ -76,22 +76,11 @@ class TestVientoPeligroso(unittest.TestCase):
                     self.playas.grados_entre_viento_y_orientacion(playa, con_viento_desde(direccion)), grados
                 )
 
-    def test_viento_lateral_en_bolnuevo_no_es_peligroso(self):
-        self.assertFalse(self.playas.viento_peligroso(BOLNUEVO, CONDICIONES))
-
-    def test_viento_de_tierra_en_bolnuevo_es_peligroso(self):
-        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=345))
-        self.assertTrue(self.playas.viento_peligroso(BOLNUEVO, condiciones))
-
-    def test_viento_justo_en_el_margen_es_peligroso(self):
-        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=278))
-        self.assertTrue(self.playas.viento_peligroso(BOLNUEVO, condiciones))
-
-    def test_al_dar_la_vuelta_al_circulo_no_es_peligroso(self):
-        calblanque = ("Calblanque", "Cartagena")
-        playas = PlayasDeLaCosta(orientaciones_grados={calblanque: 10})
-        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=12, direccion_grados=350))
-        self.assertFalse(playas.viento_peligroso(calblanque, condiciones))
+    def test_es_peligroso_a_partir_del_margen(self):
+        casos = {248: False, 277: False, 278: True}
+        for direccion, peligroso in casos.items():
+            with self.subTest(direccion=direccion):
+                self.assertEqual(self.playas.viento_peligroso(BOLNUEVO, con_viento_desde(direccion)), peligroso)
 
 class TestVientoYOlasPasanDelLimite(unittest.TestCase):
     def setUp(self):
