@@ -86,13 +86,13 @@ class TestVientoYOlasPasanDelLimite(unittest.TestCase):
     def setUp(self):
         self.playas = PlayasDeLaCosta()
 
-    def test_viento_de_bolnuevo_a_las_nueve_no_es_demasiado_fuerte(self):
-        self.assertFalse(self.playas.viento_demasiado_fuerte(CONDICIONES))
-
-    def test_viento_de_18_kmh_es_demasiado_fuerte(self):
-        condiciones = replace(CONDICIONES, viento=Viento(fuerza_kmh=18, direccion_grados=248))
-        self.assertTrue(self.playas.viento_demasiado_fuerte(condiciones))
-
+    def test_viento_demasiado_fuerte_a_partir_del_umbral(self):
+        casos = {12: False, 18: True}
+        for fuerza_kmh, demasiado_fuerte in casos.items():
+            with self.subTest(fuerza_kmh=fuerza_kmh):
+                condiciones = replace(CONDICIONES, viento=replace(CONDICIONES.viento, fuerza_kmh=fuerza_kmh))
+                self.assertEqual(self.playas.viento_demasiado_fuerte(condiciones), demasiado_fuerte)
+    
     def test_olas_de_bolnuevo_a_las_nueve_no_son_demasiado_altas(self):
         self.assertFalse(self.playas.olas_demasiado_altas(CONDICIONES))
 
