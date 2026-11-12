@@ -68,7 +68,7 @@ Para comprobar que no escribían ficheros se usó `PYTHONDONTWRITEBYTECODE=1`, p
 
 Los tests siguen los principios F.I.R.S.T. de esta forma:
 
-- **Fast:** no usan internet ni ficheros, solo datos que se crean en el propio test, así que los 22 tests tardan muy poco.
+- **Fast:** no usan internet ni ficheros, solo datos que se crean en el propio test, así que los 9 tests tardan muy poco.
 - **Independent:** antes de cada test, `setUp` crea una `PlayasDeLaCosta` nueva, y cuando un test necesita otras condiciones hace una copia con `replace` sin tocar las de la HU001, luego ningún test depende de lo que haga otro.
 - **Repeatable:** las fechas y los datos están fijos, por lo que dan el mismo resultado en cualquier máquina y en cualquier momento.
 - **Self-validating:** cada test comprueba el resultado con una aserción de `unittest.TestCase` (`assertEqual`, `assertTrue`, `assertFalse` o `assertRaises`), y pasa o falla solo, sin tener que mirar nada a mano.
