@@ -46,23 +46,17 @@ class TestCondicionesALaLlegada(unittest.TestCase):
 
 
 class TestBanderaImpideSalir(unittest.TestCase):
-    def setUp(self):
-        self.playas = PlayasDeLaCosta()
-
-    def test_bolnuevo_con_bandera_verde_no_impide(self):
-        self.assertFalse(self.playas.bandera_impide_salir(CONDICIONES))
-
-    def test_bolnuevo_con_bandera_amarilla_impide(self):
-        condiciones = replace(CONDICIONES, bandera=Bandera.AMARILLA)
-        self.assertTrue(self.playas.bandera_impide_salir(condiciones))
-
-    def test_bolnuevo_con_bandera_roja_impide(self):
-        condiciones = replace(CONDICIONES, bandera=Bandera.ROJA)
-        self.assertTrue(self.playas.bandera_impide_salir(condiciones))
-
-    def test_bolnuevo_sin_bandera_conocida_no_impide(self):
-        condiciones = replace(CONDICIONES, bandera=None)
-        self.assertFalse(self.playas.bandera_impide_salir(condiciones))
+    def test_solo_la_amarilla_y_la_roja_impiden_salir(self):
+        casos = {
+            Bandera.VERDE: False,
+            Bandera.AMARILLA: True,
+            Bandera.ROJA: True,
+            None: False,
+        }
+        for bandera, impide in casos.items():
+            with self.subTest(bandera=bandera):
+                condiciones = replace(CONDICIONES, bandera=bandera)
+                self.assertEqual(PlayasDeLaCosta().bandera_impide_salir(condiciones), impide)
 
 class TestVientoPeligroso(unittest.TestCase):
     def setUp(self):
