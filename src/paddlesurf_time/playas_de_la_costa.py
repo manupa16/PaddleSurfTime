@@ -16,17 +16,12 @@ class PlayasDeLaCosta:
     )
     umbrales: Umbrales = Umbrales(fuerza_viento_kmh=18, altura_olas_metros=0.6, margen_viento_peligroso_grados=112.5)
 
-    def hora_a_consultar(self, playa: Playa, llegada: datetime) -> datetime:
-        hora = llegada.replace(minute=0, second=0, microsecond=0)
-        if llegada.minute >= 30:
-            hora += timedelta(hours=1)
-        if hora not in self.condiciones[playa]:
-            raise ValueError(f"No hay condiciones de {playa} a las {hora}")
-        return hora
+    def hora_a_consultar(self, llegada: datetime) -> datetime:
+        return (llegada + timedelta(minutes=30)).replace(minute=0, second=0, microsecond=0)
 
     def condiciones_a_la_llegada(self, playa: Playa, llegada: datetime) -> CondicionesMar:
-        return self.condiciones[playa][self.hora_a_consultar(playa, llegada)]
-
+        return self.condiciones[playa][self.hora_a_consultar(llegada)]
+    
     def bandera_impide_salir(self, condiciones: CondicionesMar) -> bool:
         return condiciones.bandera in (Bandera.AMARILLA, Bandera.ROJA)
 

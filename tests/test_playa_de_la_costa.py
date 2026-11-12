@@ -13,49 +13,36 @@ CONDICIONES = CondicionesMar(
     altura_olas_metros=0.4,
     bandera=Bandera.VERDE,
 )
-
+NUEVE = datetime(2026, 7, 15, 9)
+CALBLANQUE = ("Calblanque", "Cartagena")
 
 class TestHoraAConsultar(unittest.TestCase):
-    def setUp(self):
-        self.playas = PlayasDeLaCosta(
-            condiciones={
-                BOLNUEVO: {
-                    datetime(2026, 7, 15, 9): CONDICIONES,
-                    datetime(2026, 7, 15, 10): CONDICIONES,
-                }
-            }
-        )
-
-    def test_antes_de_y_media_toma_esa_hora(self):
-        hora = self.playas.hora_a_consultar(BOLNUEVO, datetime(2026, 7, 15, 9, 29))
-        self.assertEqual(hora, datetime(2026, 7, 15, 9))
-
-    def test_desde_y_media_toma_la_siguiente(self):
-        hora = self.playas.hora_a_consultar(BOLNUEVO, datetime(2026, 7, 15, 9, 30))
-        self.assertEqual(hora, datetime(2026, 7, 15, 10))
-
-    def test_sin_datos_de_la_hora_siguiente_da_error(self):
-        with self.assertRaises(ValueError):
-            self.playas.hora_a_consultar(BOLNUEVO, datetime(2026, 7, 15, 23, 50))
+    def test_toma_la_hora_en_punto_mas_cercana(self):
+        casos = {
+            datetime(2026, 7, 15, 9, 29): NUEVE,
+            datetime(2026, 7, 15, 9, 30): datetime(2026, 7, 15, 10),
+        }
+        for llegada, hora in casos.items():
+            with self.subTest(llegada=llegada):
+                self.assertEqual(PlayasDeLaCosta().hora_a_consultar(llegada), hora)
 
 
 class TestCondicionesALaLlegada(unittest.TestCase):
     def setUp(self):
-        self.playas = PlayasDeLaCosta(
-            condiciones={BOLNUEVO: {datetime(2026, 7, 15, 9): CONDICIONES}}
-        )
+        self.playas = PlayasDeLaCosta(condiciones={BOLNUEVO: {NUEVE: CONDICIONES}})
 
     def test_da_las_condiciones_de_bolnuevo_a_las_nueve(self):
-        condiciones = self.playas.condiciones_a_la_llegada(
-            BOLNUEVO, datetime(2026, 7, 15, 9)
-        )
-        self.assertEqual(condiciones, CONDICIONES)
+        self.assertEqual(self.playas.condiciones_a_la_llegada(BOLNUEVO, NUEVE), CONDICIONES)
 
-    def test_calblanque_sin_condiciones_da_error(self):
-        with self.assertRaises(KeyError):
-            self.playas.condiciones_a_la_llegada(
-                ("Calblanque", "Cartagena"), datetime(2026, 7, 15, 9)
-            )
+    def test_sin_datos_da_error(self):
+        casos = {
+            "playa sin datos": (CALBLANQUE, NUEVE),
+            "hora sin datos": (BOLNUEVO, datetime(2026, 7, 15, 23, 50)),
+        }
+        for caso, (playa, llegada) in casos.items():
+            with self.subTest(caso):
+                with self.assertRaises(KeyError):
+                    self.playas.condiciones_a_la_llegada(playa, llegada)
 
 
 class TestBanderaImpideSalir(unittest.TestCase):
