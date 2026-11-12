@@ -40,13 +40,10 @@ class PlayasDeLaCosta:
 
     def motivos_no_apta(self, playa: Playa, llegada: datetime) -> list[str]:
         condiciones = self.condiciones_a_la_llegada(playa, llegada)
-        motivos = []
-        if self.bandera_impide_salir(condiciones):
-            motivos.append("bandera")
-        if self.viento_peligroso(playa, condiciones):
-            motivos.append("viento de tierra")
-        if self.viento_demasiado_fuerte(condiciones):
-            motivos.append("viento fuerte")
-        if self.olas_demasiado_altas(condiciones):
-            motivos.append("olas")
-        return motivos
+        comprobaciones = {
+            "bandera": self.bandera_impide_salir(condiciones),
+            "viento de tierra": self.viento_peligroso(playa, condiciones),
+            "viento fuerte": self.viento_demasiado_fuerte(condiciones),
+            "olas": self.olas_demasiado_altas(condiciones),
+        }
+        return [motivo for motivo, se_cumple in comprobaciones.items() if se_cumple]
