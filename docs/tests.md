@@ -52,7 +52,7 @@ El mantenimiento se ha mirado en la última versión publicada en PyPI de cada p
 ## Test runner
 
 - `python -m unittest`: escribe el fichero `__pycache__`, y se evita con `python -B`. Viene con Python, por lo que no se instala. Su última versión es la de Python 3.14, la 3.14.10, lanzada el 25 de octubre de 2026.
-- pytest: escribe  los ficheros `__pycache__`  y se evita con `python -B` y `-p no:cacheprovider`. Tarda 0,776 s en instalarse. Su última versión es  9.2.0  lanzada el 27 octubre de  2026.
+- pytest: escribe `__pycache__` y `.pytest_cache`, y se evita con `python -B` y `-p no:cacheprovider`. Tarda 0,776 s en instalarse. Su última versión es  9.2.0  lanzada el 27 octubre de  2026.
 - nose2: escribe `__pycache__`, y se evita con `python -B`. Tarda 1,092 s en instalarse. Y su última versión es 0.16.0 lanzada en marzo de 2026.
 
 Los tres cumplen el primero y el tercero. `python -m unittest` no hay que instalarlo, así que gana en tiempo de instalación. Se elige `python -m unittest`, ejecutado con `python3 -B`, que es como se lanza en la tarea `test`.
