@@ -67,4 +67,4 @@ Los tests siguen los principios F.I.R.S.T. de esta forma:
 - **Independent:** cada test crea su propia `PlayasDeLaCosta`, en `setUp` o dentro del test, y cuando un test necesita otras condiciones hace una copia con `replace` sin tocar las de la HU001, luego ningún test depende de lo que haga otro.
 - **Repeatable:** las fechas y los datos están fijos, por lo que dan el mismo resultado en cualquier máquina y en cualquier momento.
 - **Self-validating:** cada test comprueba el resultado con una aserción de `unittest.TestCase` (`assertEqual` o `assertRaises`), y pasa o falla solo, sin tener que mirar nada a mano.
-- **Timely:** cada test se ha escrito a la vez que su función y va en el mismo commit que la issue que resuelve.
+- **Timely:** cada test se ha escrito a la vez que la función que prueba.
