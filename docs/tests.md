@@ -39,11 +39,11 @@ Después se repitió con `PYTHONDONTWRITEBYTECODE=1`, que hace que Python no cre
 
 ![Runner sin escribir ficheros](runners_sin_ficheros.png)
 
-El mantenimiento se ha mirado en la última versión publicada en PyPI de cada paquete. `assert` y `unittest` no están en PyPI porque vienen con Python, así que para ellos se ha investigado la última versión de Python 3.14, que es la que usa el proyecto (la más nueva de Python es la 3.15.2).
+El mantenimiento se ha mirado en la última versión publicada en PyPI de cada paquete. `assert` y `unittest` no están en PyPI porque vienen con Python, con cualquier versión, así que para ellos se ha investigado la última versión de Python, que es la 3.15.2. El proyecto pide Python 3.14 o superior, luego se pueden usar igual con la 3.14 que con la 3.15.
 ## Biblioteca de aserciones
 
-- `assert`: por sí solo no comprueba errores y necesita `pytest.raises` o `try/except`. Viene con Python luego no se instala.La última versión de Python 3.14 es la 3.14.10, lanzada el 25 de octubre de 2026.
-- `unittest.TestCase`: comprueba errores con `assertRaises`. Viene con Python y por tanto no se instala. La última versión de Python 3.14 es la 3.14.10, lanzada el 25 de octubre de 2026.
+- `assert`: por sí solo no comprueba errores y necesita `pytest.raises` o `try/except`. Viene con Python luego no se instala.La última versión de Python es la 3.15.2, lanzada el 25 de octubre de 2026.
+- `unittest.TestCase`: comprueba errores con `assertRaises`. Viene con Python y por tanto no se instala. La última versión de Python es la 3.15.2, lanzada el 25 de octubre de 2026.
 - assertpy: comprueba errores. Tarda 0,474 s en instalarse. Y su última versión es 2.36.0 lanzada el 5 de noviembre de 2026.
 - PyHamcrest: comprueba errores. Tarda 0,568 s en instalarse. Y su última versiónes  2.1.0 lanzada en octubre de 2023.
 
@@ -51,7 +51,7 @@ El mantenimiento se ha mirado en la última versión publicada en PyPI de cada p
 
 ## Test runner
 
-- `python -m unittest`: escribe el fichero `__pycache__`, y se evita con `python -B`. Viene con Python, por lo que no se instala. La última versión de Python 3.14 es la 3.14.10, lanzada el 25 de octubre de 2026.
+- `python -m unittest`: escribe el fichero `__pycache__`, y se evita con `python -B`. Viene con Python, por lo que no se instala. La última versión de Python es la 3.15.2, lanzada el 25 de octubre de 2026.
 - pytest: escribe `__pycache__` y `.pytest_cache`, y se evita con `python -B` y `-p no:cacheprovider`. Tarda 0,776 s en instalarse. Su última versión es  9.2.0  lanzada el 27 octubre de  2026.
 - nose2: escribe `__pycache__`, y se evita con `python -B`. Tarda 1,092 s en instalarse. Y su última versión es 0.16.0 lanzada en marzo de 2026.
 
