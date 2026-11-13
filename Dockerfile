@@ -1,16 +1,12 @@
-FROM alpine:3.24
+FROM docker.io/astral/uv:0.13.8-python3.15-trixie-slim
 
-COPY --from=ghcr.io/astral-sh/uv:0.13.8 /uv /usr/local/bin/uv
-
-ENV UV_PROJECT_ENVIRONMENT=/opt/entorno UV_PYTHON_INSTALL_DIR=/opt/python
+ENV UV_PROJECT_ENVIRONMENT=/opt/entorno
 
 COPY pyproject.toml uv.lock /opt/proyecto/
 
-RUN apk add --no-cache --virtual compilar gcc musl-dev linux-headers \
-    && uv sync --frozen --no-cache --python 3.15 --project /opt/proyecto \
-    && apk del compilar
+RUN uv sync --frozen --no-cache --project /opt/proyecto
 
-RUN adduser -D pruebas
+RUN useradd pruebas
 USER pruebas
 
 ENV UV_NO_SYNC=1 UV_NO_CACHE=1
