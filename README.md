@@ -50,3 +50,4 @@ Si todos los tests pasan al final aparece `OK` y en caso contrario se indica qu�
 - [Configuración del entorno](docs/entorno.md)
 - [Elección de herramientas](docs/automatizacion.md)
 - [Herramientas para los tests](docs/tests.md)
+- [Elección de la imagen base del contenedor](docs/contenedor.md)
