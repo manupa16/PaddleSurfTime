@@ -43,22 +43,18 @@ El mantenimiento se ha mirado en la última versión publicada en PyPI de cada p
 
 ## Biblioteca de aserciones
 
-| | Comprueba errores | Tiempo de instalación | Última versión |
-|---|---|---|---|
-| `assert` | No, por si solo no, necesita `pytest.raises` o `try/except` | 0 s | Con Python |
-| `unittest.TestCase` | Sí, `assertRaises` | 0 s | Con Python |
-| assertpy | Sí | 0,474 s | 2.36.0 (5 nov 2026) |
-| PyHamcrest | Sí | 0,568 s | 2.1.0 (oct 2023) |
+- `assert`: por sí solo no comprueba errores y necesita `pytest.raises` o `try/except`. Viene con Python luego no se instala.
+- `unittest.TestCase`: comprueba errores con `assertRaises`. Viene con Python y por tanto no se instala.
+- assertpy: comprueba errores. Tarda 0,474 s en instalarse. Y su última versión es 2.36.0 lanzada el 5 de noviembre de 2026.
+- PyHamcrest: comprueba errores. Tarda 0,568 s en instalarse. Y su última versiónes  2.1.0 lanzada en octubre de 2023.
 
 `assert` no cumple el primer criterio y PyHamcrest no cumple el tercero. Entre `unittest.TestCase` y assertpy, `unittest.TestCase` no hay que instalarlo.Se elige por tanto , `unittest.TestCase`.
 
 ## Test runner
 
-| | Ficheros que escribe | ¿Se puede evitar? | Tiempo de instalación | Última versión |
-|---|---|---|---|---|
-| `python -m unittest` | `__pycache__` | Sí, con `python -B` | 0 s | Con Python |
-| pytest | `__pycache__` y `.pytest_cache` | Sí, con `python -B` y `-p no:cacheprovider` | 0,776 s | 9.2.0 (27 oct 2026) |
-| nose2 | `__pycache__` | Sí, con `python -B` | 1,092 s | 0.16.0 (mar 2026) |
+- `python -m unittest`: escribe el fichero `__pycache__`, y se evita con `python -B`. Viene con Python, por lo que no se instala.
+- pytest: escribe  los ficheros `__pycache__`  y se evita con `python -B` y `-p no:cacheprovider`. Tarda 0,776 s en instalarse. Su última versión es  9.2.0  lanzada el 27 octubre de  2026.
+- nose2: escribe `__pycache__`, y se evita con `python -B`. Tarda 1,092 s en instalarse. Y su última versión es 0.16.0 lanzada en marzo de 2026.
 
 Los tres cumplen el primero y el tercero. `python -m unittest` no hay que instalarlo, así que gana en tiempo de instalación. Se elige `python -m unittest`, ejecutado con `python3 -B`, que es como se lanza en la tarea `test`.
 
