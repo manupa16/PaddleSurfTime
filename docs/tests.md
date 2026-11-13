@@ -14,12 +14,12 @@ Se han buscado bibliotecas de aserciones y test runners para Python en la docume
 
 Biblioteca de aserciones:
 1. Tiene que poder comprobar que se lanza un error, porque también hay que probar los casos en los que falla.
-2. Tiempo de instalación, cuanto menos mejor.
+2. Tiempo de instalación, cuanto menos mejor, porque no se instala una sola vez, se instala cada vez que se lanza un workflow.
 3. Que esté mantenida, que haya sacado alguna versión en el último año.
 
 Test runner:
 1. Que no escriba ficheros en la carpeta del código, o que se pueda configurar para que no lo haga.
-2. Tiempo de instalación, cuanto menos mejor.
+2. Tiempo de instalación, cuanto menos mejor, porque no se instala una sola vez, se instala cada vez que se lanza un workflow. 
 3. Que esté mantenido, que haya sacado alguna versión en el último año.
 
 ## Cómo se ha medido
