@@ -8,7 +8,7 @@ Esto se debía a que hacía viento, que daba lugar a pequeñas corrientes o incl
 
 ## Estado del Proyecto
 
-El proyecto está en fase de planificación, están definidos los usuarios, historias de usuario y dos milestones.
+El proyecto está en el Milestone 1. Está hecho el modelo (Milestone 0) y la lógica de negocio de HU001 con sus tests que se pueden ejecutar con el contenedor del proyecto.
 
 ## Planificación
 
