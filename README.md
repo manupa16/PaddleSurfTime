@@ -42,6 +42,12 @@ uv run task test
 ```
 
 Si todos los tests pasan al final aparece `OK` y en caso contrario se indica qué test ha fallado y por qué.
+Los tests también se pueden ejecutar sin instalar nada, con el contenedor del proyecto. Desde la raíz del repositorio:
+
+```
+docker run -u 1001 -t -v `pwd`:/app/test manupa16/paddlesurftime
+```
+
 
 ## Documentación adicional
 
