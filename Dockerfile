@@ -1,4 +1,6 @@
-FROM docker.io/astral/uv:0.13.8-python3.15-alpine
+FROM python:3.15.2-alpine3.24
+
+COPY --from=ghcr.io/astral-sh/uv:0.13.8 /uv /usr/local/bin/uv
 
 ENV UV_PROJECT_ENVIRONMENT=/opt/entorno
 
