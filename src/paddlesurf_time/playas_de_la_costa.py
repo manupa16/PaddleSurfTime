@@ -1,3 +1,4 @@
+import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
@@ -47,3 +48,7 @@ class PlayasDeLaCosta:
             "olas": self.olas_demasiado_altas(condiciones),
         }
         return [motivo for motivo, se_cumple in comprobaciones.items() if se_cumple]
+
+    def prevision_por_hora(self, prevision: str, dato: str) -> dict[datetime, float]:
+        horas = json.loads(prevision)["hourly"]
+        return dict(zip(map(datetime.fromisoformat, horas["time"]), horas[dato]))

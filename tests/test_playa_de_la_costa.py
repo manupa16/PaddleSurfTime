@@ -1,6 +1,7 @@
 import unittest
 from dataclasses import replace
 from datetime import datetime
+from pathlib import Path
 
 from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.condiciones_mar import CondicionesMar
@@ -17,6 +18,9 @@ NUEVE = datetime(2026, 7, 15, 9)
 CALBLANQUE = ("Calblanque", "Cartagena")
 def con_viento_desde(direccion_grados):
     return replace(CONDICIONES, viento=replace(CONDICIONES.viento, direccion_grados=direccion_grados))
+DATOS = Path(__file__).parent / "datos"
+VIENTO = (DATOS / "viento_bolnuevo.json").read_text()
+OLAS = (DATOS / "olas_bolnuevo.json").read_text()
 
 
 class TestHoraAConsultar(unittest.TestCase):
@@ -116,3 +120,18 @@ class TestMotivosNoApta(unittest.TestCase):
                     condiciones={BOLNUEVO: {NUEVE: condiciones}},
                 )
                 self.assertEqual(playas.motivos_no_apta(BOLNUEVO, NUEVE), motivos)
+
+class TestPrevisionPorHora(unittest.TestCase):
+    def test_da_el_valor_de_cada_dato_a_las_nueve(self):
+        casos = {
+            (VIENTO, "wind_speed_10m"): 6.7,
+            (VIENTO, "wind_direction_10m"): 344,
+            (OLAS, "wave_height"): 0.4,
+        }
+        for (prevision, dato), valor in casos.items():
+            with self.subTest(dato=dato):
+                self.assertEqual(PlayasDeLaCosta().prevision_por_hora(prevision, dato)[datetime(2024, 9, 11, 9)], valor)
+
+    def test_dato_que_no_esta_en_la_prevision_da_error(self):
+        with self.assertRaises(KeyError):
+            PlayasDeLaCosta().prevision_por_hora(OLAS, "wind_speed_10m")
