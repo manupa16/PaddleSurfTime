@@ -22,6 +22,8 @@ DATOS = Path(__file__).parent / "datos"
 VIENTO = (DATOS / "viento_bolnuevo.json").read_text()
 OLAS = (DATOS / "olas_bolnuevo.json").read_text()
 BANDERAS = (DATOS / "banderas_murcia.html").read_text()
+BOLNUEVO_OASIS = ("BOLNUEVO (OASIS)", "MAZARRON")
+
 
 
 class TestHoraAConsultar(unittest.TestCase):
@@ -140,7 +142,7 @@ class TestPrevisionPorHora(unittest.TestCase):
 class TestBanderasPublicadas(unittest.TestCase):
     def test_da_la_bandera_de_cada_playa(self):
         casos = {
-            ("BOLNUEVO (OASIS)", "MAZARRON"): Bandera.VERDE,
+            BOLNUEVO_OASIS: Bandera.VERDE,
             ("ENTREMARES", "CARTAGENA"): Bandera.AMARILLA,
             ("BOLNUEVO (CENTRO)", "MAZARRON"): None,
             ("ESTACIO (NORTE)", "SAN JAVIER"): None,
@@ -149,3 +151,22 @@ class TestBanderasPublicadas(unittest.TestCase):
         for playa, bandera in casos.items():
             with self.subTest(playa=playa):
                 self.assertEqual(banderas[playa], bandera)
+
+class TestJuntarCondiciones(unittest.TestCase):
+    def setUp(self):
+        self.playas = PlayasDeLaCosta(orientaciones_grados={BOLNUEVO_OASIS: 165})
+
+    def test_dice_si_bolnuevo_esta_apta_a_la_llegada(self):
+        casos = {
+            datetime(2024, 9, 11, 9): ["viento de tierra"],
+            datetime(2024, 9, 11, 12): [],
+            datetime(2024, 9, 11, 22): ["olas"],
+        }
+        self.playas.juntar_condiciones(BOLNUEVO_OASIS, VIENTO, OLAS, BANDERAS)
+        for llegada, motivos in casos.items():
+            with self.subTest(llegada=llegada):
+                self.assertEqual(self.playas.motivos_no_apta(BOLNUEVO_OASIS, llegada), motivos)
+
+    def test_playa_sin_bandera_publicada_da_error(self):
+        with self.assertRaises(KeyError):
+            self.playas.juntar_condiciones(BOLNUEVO, VIENTO, OLAS, BANDERAS)

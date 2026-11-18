@@ -7,6 +7,7 @@ from itertools import batched
 from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
 from paddlesurf_time.bandera import Bandera
+from paddlesurf_time.viento import Viento
 
 type Playa = tuple[str, str]
 
@@ -60,5 +61,19 @@ class PlayasDeLaCosta:
         return {
             (playa, municipio): Bandera.__members__.get(bandera)
             for playa, municipio, bandera, _, _ in batched(celdas, 5)
+        }
+
+    def juntar_condiciones(self, playa: Playa, prevision_viento: str, prevision_olas: str, estado_playas: str) -> None:
+        fuerzas = self.prevision_por_hora(prevision_viento, "wind_speed_10m")
+        direcciones = self.prevision_por_hora(prevision_viento, "wind_direction_10m")
+        alturas = self.prevision_por_hora(prevision_olas, "wave_height")
+        bandera = self.banderas_publicadas(estado_playas)[playa]
+        self.condiciones[playa] = {
+            hora: CondicionesMar(
+                viento=Viento(fuerza_kmh=fuerzas[hora], direccion_grados=direcciones[hora]),
+                altura_olas_metros=alturas[hora],
+                bandera=bandera,
+            )
+            for hora in fuerzas
         }
 
