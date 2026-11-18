@@ -1,6 +1,8 @@
 import json
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
+from itertools import batched
 
 from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
@@ -52,3 +54,11 @@ class PlayasDeLaCosta:
     def prevision_por_hora(self, prevision: str, dato: str) -> dict[datetime, float]:
         horas = json.loads(prevision)["hourly"]
         return dict(zip(map(datetime.fromisoformat, horas["time"]), horas[dato]))
+
+    def banderas_publicadas(self, estado_playas: str) -> dict[Playa, Bandera | None]:
+        celdas = re.findall(r"<span style='font-size: 8pt;'>([^<]*)</span>", estado_playas)
+        return {
+            (playa, municipio): Bandera.__members__.get(bandera)
+            for playa, municipio, bandera, _, _ in batched(celdas, 5)
+        }
+

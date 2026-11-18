@@ -21,6 +21,7 @@ def con_viento_desde(direccion_grados):
 DATOS = Path(__file__).parent / "datos"
 VIENTO = (DATOS / "viento_bolnuevo.json").read_text()
 OLAS = (DATOS / "olas_bolnuevo.json").read_text()
+BANDERAS = (DATOS / "banderas_murcia.html").read_text()
 
 
 class TestHoraAConsultar(unittest.TestCase):
@@ -135,3 +136,16 @@ class TestPrevisionPorHora(unittest.TestCase):
     def test_dato_que_no_esta_en_la_prevision_da_error(self):
         with self.assertRaises(KeyError):
             PlayasDeLaCosta().prevision_por_hora(OLAS, "wind_speed_10m")
+
+class TestBanderasPublicadas(unittest.TestCase):
+    def test_da_la_bandera_de_cada_playa(self):
+        casos = {
+            ("BOLNUEVO (OASIS)", "MAZARRON"): Bandera.VERDE,
+            ("ENTREMARES", "CARTAGENA"): Bandera.AMARILLA,
+            ("BOLNUEVO (CENTRO)", "MAZARRON"): None,
+            ("ESTACIO (NORTE)", "SAN JAVIER"): None,
+        }
+        banderas = PlayasDeLaCosta().banderas_publicadas(BANDERAS)
+        for playa, bandera in casos.items():
+            with self.subTest(playa=playa):
+                self.assertEqual(banderas[playa], bandera)
