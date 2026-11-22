@@ -4,13 +4,15 @@
 
 - **Biblioteca de aserciones**: es lo que comprueba que el resultado de una función es el esperado.
 
+- **Marco de test**: es lo que organiza los tests, esto es,  los agrupa con un nombre, deja repetir un mismo test con varios casos y prepara lo que necesita cada test antes de ejecutarlo.
+
 - **Test runner**: es la herramienta CLI que busca los ficheros de test, los ejecuta y dice cuáles pasan y cuáles fallan.
 
 
 
 ## Criterios de búsqueda
 
-Se han buscado bibliotecas de aserciones y test runners para Python en la documentación oficial de Python ([unittest](https://docs.python.org/3/library/unittest.html)), en [pydevtools](https://pydevtools.com/handbook/topics/testing/) y en [PyPI](https://pypi.org/).
+Se han buscado bibliotecas de aserciones, marcos de test y test runners para Python en la documentación oficial de Python ([unittest](https://docs.python.org/3/library/unittest.html)), en [pydevtools](https://pydevtools.com/handbook/topics/testing/) y en [PyPI](https://pypi.org/).
 
 ## Biblioteca de aserciones
 
@@ -26,6 +28,20 @@ El mantenimiento se ha mirado en la última versión publicada en PyPI de cada p
 - PyHamcrest: comprueba errores.Y su última versiónes  2.1.0 lanzada en octubre de 2023.
 
 `assert` no cumple el primer criterio y PyHamcrest no cumple el segundo. `unittest.TestCase` y assertpy cumplen los dos, se elige `unittest.TestCase` porque es del mismo módulo que el test runner elegido, `python -m unittest`.
+
+## Marco de test
+
+Criterios de aceptación:
+1. Que permita pasar un mismo test con varios casos y diga en cuál falla, porque los tests recorren una lista de casos para no repetir tests que solo cambian el dato.
+2. Que permita preparar antes de cada test lo que usa, para que cada test empiece con su propia `PlayasDeLaCosta` y no dependa de otro.
+3. Que funcione con la biblioteca de aserciones elegida, porque `assertEqual` y `assertRaises` son métodos de `unittest.TestCase`, así que el marco tiene que funcionar con clases de ese tipo.
+4. Que esté mantenido, que haya sacado alguna versión en el último año.
+
+- [`unittest`](https://docs.python.org/3/library/unittest.html#organizing-test-code): repite un test con varios casos con [`subTest`](https://docs.python.org/3/library/unittest.html#distinguishing-test-iterations-using-subtests) y prepara lo que usa cada test con `setUp`. Sus aserciones son las de `unittest.TestCase`. La última versión de Python es la 3.15.2, lanzada el 25 de octubre de 2026.
+- pytest: repite un test con varios casos con `@pytest.mark.parametrize` y prepara lo que usa cada test con fixtures. Las dos cosas no funcionan dentro de una clase `unittest.TestCase`. Su última versión es 9.2.0, lanzada el 27 de octubre de 2026.
+- nose2: repite un test con varios casos con `@params` y prepara lo que usa cada test con `setUp`, porque se basa en `unittest`. `@params` funciona en los métodos de una clase `unittest.TestCase`. Su última versión es 0.16.0, lanzada en marzo de 2026.
+
+El marco de `unittest` ya venía con la biblioteca de aserciones elegida, porque sus aserciones son métodos de `unittest.TestCase`, y con estos criterios se ha comprobado si había otro mejor. pytest no cumple el tercero. nose2 cumple los cuatro, pero se basa en `unittest` y lo que añade para estos criterios, `@params`, ya lo da `unittest` con `subTest`. Por eso se elige `unittest`, que es con el que están escritos los tests de `tests/test_playa_de_la_costa.py`: cada clase es un `unittest.TestCase` y usan `setUp` y `subTest`.
 
 ## Test runner
 
