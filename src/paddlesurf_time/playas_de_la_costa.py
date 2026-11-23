@@ -7,6 +7,7 @@ from itertools import batched
 from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
 from paddlesurf_time.bandera import Bandera
+from paddlesurf_time.bandera_publicada import BanderaPublicada
 from paddlesurf_time.viento import Viento
 
 type Playa = tuple[str, str]
@@ -18,7 +19,7 @@ class PlayasDeLaCosta:
     condiciones: dict[Playa, dict[datetime, CondicionesMar]] = field(
         default_factory=dict
     )
-    banderas: dict[Playa, Bandera | None] = field(default_factory=dict)
+    banderas: dict[Playa, BanderaPublicada] = field(default_factory=dict)
     umbrales: Umbrales = Umbrales(fuerza_viento_kmh=18, altura_olas_metros=0.6, margen_viento_peligroso_grados=112.5)
 
     def hora_a_consultar(self, llegada: datetime) -> datetime:
@@ -27,8 +28,12 @@ class PlayasDeLaCosta:
     def condiciones_a_la_llegada(self, playa: Playa, llegada: datetime) -> CondicionesMar:
         return self.condiciones[playa][self.hora_a_consultar(llegada)]
     
-    def bandera_impide_salir(self, playa: Playa) -> bool:
-        return self.banderas[playa] in (Bandera.AMARILLA, Bandera.ROJA)
+    def bandera_a_la_llegada(self, playa: Playa, llegada: datetime) -> Bandera | None:
+        publicada = self.banderas[playa]
+        return publicada.bandera if publicada.actualizada == llegada.date() else None
+
+    def bandera_impide_salir(self, playa: Playa, llegada: datetime) -> bool:
+        return self.bandera_a_la_llegada(playa, llegada) in (Bandera.AMARILLA, Bandera.ROJA)
 
     def grados_entre_viento_y_orientacion(self, playa: Playa, condiciones: CondicionesMar) -> int:
         diferencia = abs(condiciones.viento.direccion_grados - self.orientaciones_grados[playa])
@@ -46,7 +51,7 @@ class PlayasDeLaCosta:
     def motivos_no_apta(self, playa: Playa, llegada: datetime) -> list[str]:
         condiciones = self.condiciones_a_la_llegada(playa, llegada)
         comprobaciones = {
-            "bandera": self.bandera_impide_salir(playa),
+            "bandera": self.bandera_impide_salir(playa, llegada),
             "viento de tierra": self.viento_peligroso(playa, condiciones),
             "viento fuerte": self.viento_demasiado_fuerte(condiciones),
             "olas": self.olas_demasiado_altas(condiciones),
@@ -60,8 +65,11 @@ class PlayasDeLaCosta:
     def actualizar_banderas(self, estado_playas: str) -> None:
         celdas = re.findall(r"<span style='font-size: 8pt;'>([^<]*)</span>", estado_playas)
         self.banderas.update({
-            (playa, municipio): Bandera.__members__.get(bandera)
-            for playa, municipio, bandera, _, _ in batched(celdas, 5)
+            (playa, municipio): BanderaPublicada(
+                bandera=Bandera.__members__.get(bandera),
+                actualizada=None if actualizada == "NO DISPONIBLE" else datetime.strptime(actualizada, "%d/%m/%Y %H:%M").date(),
+            )
+            for playa, municipio, bandera, _, actualizada in batched(celdas, 5)
         })
 
     def juntar_condiciones(self, playa: Playa, prevision_viento: str, prevision_olas: str) -> None:

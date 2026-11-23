@@ -1,10 +1,11 @@
 import json
 import unittest
 from dataclasses import replace
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 from paddlesurf_time.bandera import Bandera
+from paddlesurf_time.bandera_publicada import BanderaPublicada
 from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.playas_de_la_costa import PlayasDeLaCosta
 from paddlesurf_time.viento import Viento
@@ -15,6 +16,8 @@ CONDICIONES = CondicionesMar(
     altura_olas_metros=0.4,
 )
 NUEVE = datetime(2026, 7, 15, 9)
+def publicada_el_dia_de_llegada(bandera):
+    return BanderaPublicada(bandera=bandera, actualizada=NUEVE.date())
 CALBLANQUE = ("Calblanque", "Cartagena")
 def con_viento_desde(direccion_grados):
     return replace(CONDICIONES, viento=replace(CONDICIONES.viento, direccion_grados=direccion_grados))
@@ -67,12 +70,26 @@ class TestBanderaImpideSalir(unittest.TestCase):
         }
         for bandera, impide in casos.items():
             with self.subTest(bandera=bandera):
-                playas = PlayasDeLaCosta(banderas={BOLNUEVO: bandera})
-                self.assertEqual(playas.bandera_impide_salir(BOLNUEVO), impide)
+                playas = PlayasDeLaCosta(banderas={BOLNUEVO: publicada_el_dia_de_llegada(bandera)})
+                self.assertEqual(playas.bandera_impide_salir(BOLNUEVO, NUEVE), impide)
 
     def test_playa_sin_bandera_publicada_da_error(self):
         with self.assertRaises(KeyError):
-            PlayasDeLaCosta().bandera_impide_salir(BOLNUEVO)
+            PlayasDeLaCosta().bandera_impide_salir(BOLNUEVO, NUEVE)
+
+class TestBanderaALaLlegada(unittest.TestCase):
+    def test_solo_cuenta_la_bandera_del_dia_de_llegada(self):
+        casos = {
+            "del día de llegada": (NUEVE.date(), Bandera.VERDE),
+            "del día anterior": (date(2026, 7, 14), None),
+            "sin fecha": (None, None),
+        }
+        for caso, (actualizada, bandera) in casos.items():
+            with self.subTest(caso):
+                playas = PlayasDeLaCosta(
+                    banderas={BOLNUEVO: BanderaPublicada(bandera=Bandera.VERDE, actualizada=actualizada)}
+                )
+                self.assertEqual(playas.bandera_a_la_llegada(BOLNUEVO, NUEVE), bandera)
 
 class TestVientoPeligroso(unittest.TestCase):
     def setUp(self):
@@ -127,7 +144,7 @@ class TestMotivosNoApta(unittest.TestCase):
                 playas = PlayasDeLaCosta(
                     orientaciones_grados={BOLNUEVO: 165},
                     condiciones={BOLNUEVO: {NUEVE: condiciones}},
-                    banderas={BOLNUEVO: bandera},
+                    banderas={BOLNUEVO: publicada_el_dia_de_llegada(bandera)},
                 )
                 self.assertEqual(playas.motivos_no_apta(BOLNUEVO, NUEVE), motivos)
 
@@ -149,10 +166,11 @@ class TestPrevisionPorHora(unittest.TestCase):
 class TestActualizarBanderas(unittest.TestCase):
     def test_guarda_la_bandera_de_cada_playa(self):
         casos = {
-            BOLNUEVO_OASIS: Bandera.VERDE,
-            ("ENTREMARES", "CARTAGENA"): Bandera.AMARILLA,
-            ("BOLNUEVO (CENTRO)", "MAZARRON"): None,
-            ("ESTACIO (NORTE)", "SAN JAVIER"): None,
+            BOLNUEVO_OASIS: BanderaPublicada(bandera=Bandera.VERDE, actualizada=date(2024, 9, 11)),
+            ("ENTREMARES", "CARTAGENA"): BanderaPublicada(bandera=Bandera.AMARILLA, actualizada=date(2024, 9, 11)),
+            ("BOLNUEVO (CENTRO)", "MAZARRON"): BanderaPublicada(bandera=None, actualizada=date(2024, 9, 3)),
+            ("ESTACIO (NORTE)", "SAN JAVIER"): BanderaPublicada(bandera=None, actualizada=date(2024, 9, 11)),
+            ("BARCO PERDIDO III (ZEUS)", "CARTAGENA"): BanderaPublicada(bandera=None, actualizada=None),
         }
         playas = PlayasDeLaCosta()
         playas.actualizar_banderas(BANDERAS)
