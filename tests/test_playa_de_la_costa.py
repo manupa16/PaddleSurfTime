@@ -1,3 +1,4 @@
+import json
 import unittest
 from dataclasses import replace
 from datetime import datetime
@@ -21,6 +22,8 @@ def con_viento_desde(direccion_grados):
 DATOS = Path(__file__).parent / "datos"
 VIENTO = (DATOS / "viento_bolnuevo.json").read_text()
 OLAS = (DATOS / "olas_bolnuevo.json").read_text()
+HORAS_VIENTO = json.loads(VIENTO)["hourly"]
+HORAS_OLAS = json.loads(OLAS)["hourly"]
 BANDERAS = (DATOS / "banderas_murcia.html").read_text()
 BOLNUEVO_OASIS = ("BOLNUEVO (OASIS)", "MAZARRON")
 
@@ -127,17 +130,17 @@ class TestMotivosNoApta(unittest.TestCase):
 class TestPrevisionPorHora(unittest.TestCase):
     def test_da_el_valor_de_cada_dato_a_las_nueve(self):
         casos = {
-            (VIENTO, "wind_speed_10m"): 6.7,
-            (VIENTO, "wind_direction_10m"): 344,
-            (OLAS, "wave_height"): 0.4,
+            "wind_speed_10m": (HORAS_VIENTO, 6.7),
+            "wind_direction_10m": (HORAS_VIENTO, 344),
+            "wave_height": (HORAS_OLAS, 0.4),
         }
-        for (prevision, dato), valor in casos.items():
+        for dato, (horas, valor) in casos.items():
             with self.subTest(dato=dato):
-                self.assertEqual(PlayasDeLaCosta().prevision_por_hora(prevision, dato)[datetime(2024, 9, 11, 9)], valor)
+                self.assertEqual(PlayasDeLaCosta.prevision_por_hora(horas, dato)[datetime(2024, 9, 11, 9)], valor)
 
     def test_dato_que_no_esta_en_la_prevision_da_error(self):
         with self.assertRaises(KeyError):
-            PlayasDeLaCosta().prevision_por_hora(OLAS, "wind_speed_10m")
+            PlayasDeLaCosta.prevision_por_hora(HORAS_OLAS, "wind_speed_10m")
 
 class TestBanderasPublicadas(unittest.TestCase):
     def test_da_la_bandera_de_cada_playa(self):

@@ -52,8 +52,8 @@ class PlayasDeLaCosta:
         }
         return [motivo for motivo, se_cumple in comprobaciones.items() if se_cumple]
 
-    def prevision_por_hora(self, prevision: str, dato: str) -> dict[datetime, float]:
-        horas = json.loads(prevision)["hourly"]
+    @staticmethod
+    def prevision_por_hora(horas: dict[str, list], dato: str) -> dict[datetime, float]:
         return dict(zip(map(datetime.fromisoformat, horas["time"]), horas[dato]))
 
     def banderas_publicadas(self, estado_playas: str) -> dict[Playa, Bandera | None]:
@@ -64,9 +64,11 @@ class PlayasDeLaCosta:
         }
 
     def juntar_condiciones(self, playa: Playa, prevision_viento: str, prevision_olas: str, estado_playas: str) -> None:
-        fuerzas = self.prevision_por_hora(prevision_viento, "wind_speed_10m")
-        direcciones = self.prevision_por_hora(prevision_viento, "wind_direction_10m")
-        alturas = self.prevision_por_hora(prevision_olas, "wave_height")
+        viento = json.loads(prevision_viento)["hourly"]
+        olas = json.loads(prevision_olas)["hourly"]
+        fuerzas = self.prevision_por_hora(viento, "wind_speed_10m")
+        direcciones = self.prevision_por_hora(viento, "wind_direction_10m")
+        alturas = self.prevision_por_hora(olas, "wave_height")
         bandera = self.banderas_publicadas(estado_playas)[playa]
         self.condiciones[playa] = {
             hora: CondicionesMar(
