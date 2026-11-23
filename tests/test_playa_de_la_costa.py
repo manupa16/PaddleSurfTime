@@ -13,7 +13,6 @@ BOLNUEVO = ("Bolnuevo", "Mazarrón")
 CONDICIONES = CondicionesMar(
     viento=Viento(fuerza_kmh=12, direccion_grados=248),
     altura_olas_metros=0.4,
-    bandera=Bandera.VERDE,
 )
 NUEVE = datetime(2026, 7, 15, 9)
 CALBLANQUE = ("Calblanque", "Cartagena")
@@ -68,8 +67,12 @@ class TestBanderaImpideSalir(unittest.TestCase):
         }
         for bandera, impide in casos.items():
             with self.subTest(bandera=bandera):
-                condiciones = replace(CONDICIONES, bandera=bandera)
-                self.assertEqual(PlayasDeLaCosta().bandera_impide_salir(condiciones), impide)
+                playas = PlayasDeLaCosta(banderas={BOLNUEVO: bandera})
+                self.assertEqual(playas.bandera_impide_salir(BOLNUEVO), impide)
+
+    def test_playa_sin_bandera_publicada_da_error(self):
+        with self.assertRaises(KeyError):
+            PlayasDeLaCosta().bandera_impide_salir(BOLNUEVO)
 
 class TestVientoPeligroso(unittest.TestCase):
     def setUp(self):
@@ -113,17 +116,18 @@ class TestVientoYOlasPasanDelLimite(unittest.TestCase):
 class TestMotivosNoApta(unittest.TestCase):
     def test_da_el_motivo_de_cada_condicion_que_impide_salir(self):
         casos = [
-            (CONDICIONES, []),
-            (replace(CONDICIONES, bandera=Bandera.ROJA), ["bandera"]),
-            (con_viento_desde(278), ["viento de tierra"]),
-            (replace(CONDICIONES, viento=replace(CONDICIONES.viento, fuerza_kmh=18)), ["viento fuerte"]),
-            (replace(CONDICIONES, altura_olas_metros=0.6), ["olas"]),
+            (CONDICIONES, Bandera.VERDE, []),
+            (CONDICIONES, Bandera.ROJA, ["bandera"]),
+            (con_viento_desde(278), Bandera.VERDE, ["viento de tierra"]),
+            (replace(CONDICIONES, viento=replace(CONDICIONES.viento, fuerza_kmh=18)), Bandera.VERDE, ["viento fuerte"]),
+            (replace(CONDICIONES, altura_olas_metros=0.6), Bandera.VERDE, ["olas"]),
         ]
-        for condiciones, motivos in casos:
+        for condiciones, bandera, motivos in casos:
             with self.subTest(motivos=motivos):
                 playas = PlayasDeLaCosta(
                     orientaciones_grados={BOLNUEVO: 165},
                     condiciones={BOLNUEVO: {NUEVE: condiciones}},
+                    banderas={BOLNUEVO: bandera},
                 )
                 self.assertEqual(playas.motivos_no_apta(BOLNUEVO, NUEVE), motivos)
 
@@ -142,22 +146,24 @@ class TestPrevisionPorHora(unittest.TestCase):
         with self.assertRaises(KeyError):
             PlayasDeLaCosta.prevision_por_hora(HORAS_OLAS, "wind_speed_10m")
 
-class TestBanderasPublicadas(unittest.TestCase):
-    def test_da_la_bandera_de_cada_playa(self):
+class TestActualizarBanderas(unittest.TestCase):
+    def test_guarda_la_bandera_de_cada_playa(self):
         casos = {
             BOLNUEVO_OASIS: Bandera.VERDE,
             ("ENTREMARES", "CARTAGENA"): Bandera.AMARILLA,
             ("BOLNUEVO (CENTRO)", "MAZARRON"): None,
             ("ESTACIO (NORTE)", "SAN JAVIER"): None,
         }
-        banderas = PlayasDeLaCosta().banderas_publicadas(BANDERAS)
+        playas = PlayasDeLaCosta()
+        playas.actualizar_banderas(BANDERAS)
         for playa, bandera in casos.items():
             with self.subTest(playa=playa):
-                self.assertEqual(banderas[playa], bandera)
+                self.assertEqual(playas.banderas[playa], bandera)
 
 class TestJuntarCondiciones(unittest.TestCase):
     def setUp(self):
         self.playas = PlayasDeLaCosta(orientaciones_grados={BOLNUEVO_OASIS: 165})
+        self.playas.actualizar_banderas(BANDERAS)
 
     def test_dice_si_bolnuevo_esta_apta_a_la_llegada(self):
         casos = {
@@ -165,11 +171,7 @@ class TestJuntarCondiciones(unittest.TestCase):
             datetime(2024, 9, 11, 12): [],
             datetime(2024, 9, 11, 22): ["olas"],
         }
-        self.playas.juntar_condiciones(BOLNUEVO_OASIS, VIENTO, OLAS, BANDERAS)
+        self.playas.juntar_condiciones(BOLNUEVO_OASIS, VIENTO, OLAS)
         for llegada, motivos in casos.items():
             with self.subTest(llegada=llegada):
                 self.assertEqual(self.playas.motivos_no_apta(BOLNUEVO_OASIS, llegada), motivos)
-
-    def test_playa_sin_bandera_publicada_da_error(self):
-        with self.assertRaises(KeyError):
-            self.playas.juntar_condiciones(BOLNUEVO, VIENTO, OLAS, BANDERAS)

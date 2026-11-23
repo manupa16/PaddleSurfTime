@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.viento import Viento
 
 
@@ -8,4 +7,3 @@ from paddlesurf_time.viento import Viento
 class CondicionesMar:
     viento: Viento
     altura_olas_metros: float
-    bandera: Bandera | None
