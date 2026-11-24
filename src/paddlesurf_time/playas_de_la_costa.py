@@ -1,14 +1,12 @@
 import json
-import re
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from itertools import batched
 
 from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
 from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.bandera_publicada import BanderaPublicada
-from paddlesurf_time.paginas import prevision_por_hora
+from paddlesurf_time.paginas import celdas_de_banderas, prevision_por_hora
 from paddlesurf_time.viento import Viento
 
 type Playa = tuple[str, str]
@@ -61,13 +59,12 @@ class PlayasDeLaCosta:
         return [motivo for motivo, se_cumple in comprobaciones.items() if se_cumple]
 
     def actualizar_banderas(self, estado_playas: str) -> None:
-        celdas = re.findall(r"<span style='font-size: 8pt;'>([^<]*)</span>", estado_playas)
         self.banderas.update({
             (playa, municipio): BanderaPublicada(
                 bandera=Bandera.__members__.get(bandera),
                 actualizada=None if actualizada == "NO DISPONIBLE" else datetime.strptime(actualizada, "%d/%m/%Y %H:%M").date(),
             )
-            for playa, municipio, bandera, _, actualizada in batched(celdas, 5)
+            for playa, municipio, bandera, _, actualizada in celdas_de_banderas(estado_playas)
         })
 
     def juntar_condiciones(self, playa: Playa, prevision_viento: str, prevision_olas: str) -> None:
