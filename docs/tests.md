@@ -33,15 +33,14 @@ El mantenimiento se ha mirado en la última versión publicada en PyPI de cada p
 
 Criterios de aceptación:
 
-1. Que permita preparar antes de cada test lo que usa, para que cada test empiece con su propia `PlayasDeLaCosta` y no dependa de otro.
-2. Que funcione con la biblioteca de aserciones elegida, porque `assertEqual` y `assertRaises` son métodos de `unittest.TestCase`, así que el marco tiene que funcionar con clases de ese tipo.
-3. Que esté mantenido, que haya sacado alguna versión en el último año.
+1. Que funcione con la biblioteca de aserciones elegida, porque `assertEqual` y `assertRaises` son métodos de `unittest.TestCase`, así que el marco tiene que funcionar con clases de ese tipo.
+2. Que esté mantenido, que haya sacado alguna versión en el último año.
 
-- [`unittest`](https://docs.python.org/3/library/unittest.html#organizing-test-code): repite un test con varios casos con [`subTest`](https://docs.python.org/3/library/unittest.html#distinguishing-test-iterations-using-subtests) y prepara lo que usa cada test con `setUp`. Sus aserciones son las de `unittest.TestCase`. La última versión de Python es la 3.15.2, lanzada el 25 de octubre de 2026.
-- pytest: repite un test con varios casos con `@pytest.mark.parametrize` y prepara lo que usa cada test con fixtures. Las dos cosas no funcionan dentro de una clase `unittest.TestCase`. Su última versión es 9.2.0, lanzada el 27 de octubre de 2026.
-- nose2: repite un test con varios casos con `@params` y prepara lo que usa cada test con `setUp`, porque se basa en `unittest`. `@params` funciona en los métodos de una clase `unittest.TestCase`. Su última versión es 0.16.0, lanzada en marzo de 2026.
+- [`unittest`](https://docs.python.org/3/library/unittest.html#organizing-test-code): repite un test con varios casos con [`subTest`](https://docs.python.org/3/library/unittest.html#distinguishing-test-iterations-using-subtests). Sus aserciones son las de `unittest.TestCase`. La última versión de Python es la 3.15.2, lanzada el 25 de octubre de 2026.
+- pytest: repite un test con varios casos con `@pytest.mark.parametrize`, que no funciona dentro de una clase `unittest.TestCase`. Su última versión es 9.2.0, lanzada el 27 de octubre de 2026.
+- nose2: repite un test con varios casos con `@params` y se basa en `unittest`. `@params` funciona en los métodos de una clase `unittest.TestCase`. Su última versión es 0.16.0, lanzada en marzo de 2026.
 
-El marco de `unittest` ya venía con la biblioteca de aserciones elegida, porque sus aserciones son métodos de `unittest.TestCase`, y con estos criterios se ha comprobado si había otro mejor. pytest no cumple el segundo. nose2 cumple los tres, pero se basa en `unittest` y lo que añade, `@params` para repetir un test con varios casos, ya lo da `unittest` con `subTest`. Por eso se elige `unittest`, que es con el que están escritos los tests de `tests/test_playa_de_la_costa.py`: cada clase es un `unittest.TestCase` y usan `setUp` y `subTest`.
+El marco de `unittest` ya venía con la biblioteca de aserciones elegida, porque sus aserciones son métodos de `unittest.TestCase`, y con estos criterios se ha comprobado si había otro mejor. pytest no cumple el primero. nose2 cumple los dos, pero se basa en `unittest` y lo que añade, `@params` para repetir un test con varios casos, ya lo da `unittest` con `subTest`. Por eso se elige `unittest`, que es con el que están escritos los tests de `tests/test_playa_de_la_costa.py`: cada clase es un `unittest.TestCase` y usan `setUp` y `subTest`.
 
 ## Test runner
 
