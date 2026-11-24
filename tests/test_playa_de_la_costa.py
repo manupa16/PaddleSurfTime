@@ -7,6 +7,7 @@ from pathlib import Path
 from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.bandera_publicada import BanderaPublicada
 from paddlesurf_time.condiciones_mar import CondicionesMar
+from paddlesurf_time.paginas import prevision_por_hora
 from paddlesurf_time.playas_de_la_costa import PlayasDeLaCosta
 from paddlesurf_time.viento import Viento
 
@@ -157,11 +158,11 @@ class TestPrevisionPorHora(unittest.TestCase):
         }
         for dato, (horas, valor) in casos.items():
             with self.subTest(dato=dato):
-                self.assertEqual(PlayasDeLaCosta.prevision_por_hora(horas, dato)[datetime(2024, 9, 11, 9)], valor)
+                self.assertEqual(prevision_por_hora(horas, dato)[datetime(2024, 9, 11, 9)], valor)
 
     def test_dato_que_no_esta_en_la_prevision_da_error(self):
         with self.assertRaises(KeyError):
-            PlayasDeLaCosta.prevision_por_hora(HORAS_OLAS, "wind_speed_10m")
+            prevision_por_hora(HORAS_OLAS, "wind_speed_10m")
 
 class TestActualizarBanderas(unittest.TestCase):
     def test_guarda_la_bandera_de_cada_playa(self):

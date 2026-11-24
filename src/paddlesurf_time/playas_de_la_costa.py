@@ -8,6 +8,7 @@ from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
 from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.bandera_publicada import BanderaPublicada
+from paddlesurf_time.paginas import prevision_por_hora
 from paddlesurf_time.viento import Viento
 
 type Playa = tuple[str, str]
@@ -59,10 +60,6 @@ class PlayasDeLaCosta:
         }
         return [motivo for motivo, se_cumple in comprobaciones.items() if se_cumple]
 
-    @staticmethod
-    def prevision_por_hora(horas: dict[str, list], dato: str) -> dict[datetime, float]:
-        return dict(zip(map(datetime.fromisoformat, horas["time"]), horas[dato]))
-
     def actualizar_banderas(self, estado_playas: str) -> None:
         celdas = re.findall(r"<span style='font-size: 8pt;'>([^<]*)</span>", estado_playas)
         self.banderas.update({
@@ -76,9 +73,9 @@ class PlayasDeLaCosta:
     def juntar_condiciones(self, playa: Playa, prevision_viento: str, prevision_olas: str) -> None:
         viento = json.loads(prevision_viento)["hourly"]
         olas = json.loads(prevision_olas)["hourly"]
-        fuerzas = self.prevision_por_hora(viento, "wind_speed_10m")
-        direcciones = self.prevision_por_hora(viento, "wind_direction_10m")
-        alturas = self.prevision_por_hora(olas, "wave_height")
+        fuerzas = prevision_por_hora(viento, "wind_speed_10m")
+        direcciones = prevision_por_hora(viento, "wind_direction_10m")
+        alturas = prevision_por_hora(olas, "wave_height")
         self.condiciones[playa] = {
             hora: CondicionesMar(
                 viento=Viento(fuerza_kmh=fuerzas[hora], direccion_grados=direcciones[hora]),
