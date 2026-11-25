@@ -1,4 +1,3 @@
-import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
@@ -6,7 +5,7 @@ from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
 from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.bandera_publicada import BanderaPublicada
-from paddlesurf_time.paginas import celdas_de_banderas, prevision_por_hora
+from paddlesurf_time.paginas import celdas_de_banderas, prevision_por_hora, horas_de_prevision
 from paddlesurf_time.viento import Viento
 
 type Playa = tuple[str, str]
@@ -64,8 +63,8 @@ class PlayasDeLaCosta:
         })
 
     def juntar_condiciones(self, playa: Playa, prevision_viento: str, prevision_olas: str) -> None:
-        viento = json.loads(prevision_viento)["hourly"]
-        olas = json.loads(prevision_olas)["hourly"]
+        viento = horas_de_prevision(prevision_viento)
+        olas = horas_de_prevision(prevision_olas)
         fuerzas = prevision_por_hora(viento, "wind_speed_10m")
         direcciones = prevision_por_hora(viento, "wind_direction_10m")
         alturas = prevision_por_hora(olas, "wave_height")

@@ -1,4 +1,3 @@
-import json
 import unittest
 from dataclasses import replace
 from datetime import date, datetime
@@ -7,7 +6,7 @@ from pathlib import Path
 from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.bandera_publicada import BanderaPublicada
 from paddlesurf_time.condiciones_mar import CondicionesMar
-from paddlesurf_time.paginas import prevision_por_hora
+from paddlesurf_time.paginas import prevision_por_hora, horas_de_prevision
 from paddlesurf_time.playas_de_la_costa import PlayasDeLaCosta
 from paddlesurf_time.viento import Viento
 
@@ -25,8 +24,8 @@ def con_viento_desde(direccion_grados):
 DATOS = Path(__file__).parent / "datos"
 VIENTO = (DATOS / "viento_bolnuevo.json").read_text()
 OLAS = (DATOS / "olas_bolnuevo.json").read_text()
-HORAS_VIENTO = json.loads(VIENTO)["hourly"]
-HORAS_OLAS = json.loads(OLAS)["hourly"]
+HORAS_VIENTO = horas_de_prevision(VIENTO)
+HORAS_OLAS = horas_de_prevision(OLAS)
 BANDERAS = (DATOS / "banderas_murcia.html").read_text()
 BOLNUEVO_OASIS = ("BOLNUEVO (OASIS)", "MAZARRON")
 
