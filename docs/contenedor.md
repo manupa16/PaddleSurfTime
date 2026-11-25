@@ -10,9 +10,9 @@ Solo se consideran las que permiten usar la última versión de Python.
 Los criterios se han sacado de lo que pide el guion y de lo que se ha investigado en internet, la [documentación de Docker](https://docs.docker.com/build/building/best-practices/), que pide que la imagen venga de una fuente de confianza y sea pequeña, y el artículo [The best Docker base image for your Python application](https://pythonspeed.com/articles/base-image-python-docker-images/), que compara las imágenes que hay para Python.
 
 - Trae la última versión de Python, porque la imagen es para probar el proyecto con ella.
-- Viene de una fuente de fiable (imagen oficial o de editor verificado) y se sigue actualizando.
+- Viene de una fuente fiable (imagen oficial o de editor verificado) y se ha actualizado en los últimos dos meses, que es cada cuánto sale una versión de corrección de Python ([PEP 602](https://peps.python.org/pep-0602/)).
 - Tamaño de la imagen, porque se descarga cada vez que se pasan los tests.
-- Lleva solo lo necesario para pasar los tests: Python y uv.
+- Número de paquetes del sistema que lleva la imagen: cuantos menos, mejor, porque para pasar los tests solo hacen falta Python y uv.
 
 ## Candidatas
 
@@ -44,7 +44,7 @@ En las capturas las imágenes aparecen como `candidata1` a `candidata6`, en el m
 
 ## Elección
 
-Se elige `python:3.15.2-alpine3.24`.
+Se elige `python:alpine`, que el 25 de noviembre de 2026 es la misma imagen que `python:3.15.2-alpine3.24` (tienen el mismo digest). Se usa la etiqueta sin versión para que la imagen pase a la siguiente versión de Python sin tener que cambiar el `Dockerfile`.
 
-Las seis traen la última versión de Python, así que ese criterio no descarta a ninguna. Las dos de `astral/uv` quedan fuera porque no son imágenes oficiales ni de editor verificado. De las cuatro que quedan, `python:3.15.2-alpine3.24` es la que menos ocupa, 108 MB. `alpine:3.24` lleva menos paquetes, 16 frente a 33, pero ocupa 147 MB y su Python no viene en la imagen, sino que lo descarga uv.
+Las seis traen la última versión de Python, así que ese criterio no descarta a ninguna. Las dos de `astral/uv` quedan fuera porque no son imágenes oficiales ni de editor verificado. De las cuatro que quedan, `python:3.15.2-alpine3.24` es la que menos ocupa, 108 MB. `alpine:3.24` lleva menos paquetes, 16 frente a 33, pero ocupa 39 MB más, que hay que descargar cada vez que se pasan los tests.
 
