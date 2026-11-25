@@ -21,12 +21,8 @@ class PlayasDeLaCosta:
     banderas: dict[Playa, BanderaPublicada] = field(default_factory=dict)
     umbrales: Umbrales = Umbrales(fuerza_viento_kmh=18, altura_olas_metros=0.6, margen_viento_peligroso_grados=112.5)
 
-    @staticmethod
-    def hora_a_consultar(llegada: datetime) -> datetime:
-        return (llegada + timedelta(minutes=30)).replace(minute=0, second=0, microsecond=0)
-
     def condiciones_a_la_llegada(self, playa: Playa, llegada: datetime) -> CondicionesMar:
-        return self.condiciones[playa][self.hora_a_consultar(llegada)]
+        return self.condiciones[playa][(llegada + timedelta(minutes=30)).replace(minute=0, second=0, microsecond=0)]
     
     def bandera_a_la_llegada(self, playa: Playa, llegada: datetime) -> Bandera | None:
         publicada = self.banderas[playa]

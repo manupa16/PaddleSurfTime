@@ -32,24 +32,23 @@ BOLNUEVO_OASIS = ("BOLNUEVO (OASIS)", "MAZARRON")
 
 
 
-class TestHoraAConsultar(unittest.TestCase):
-    def test_toma_la_hora_en_punto_mas_cercana(self):
-        casos = {
-            datetime(2026, 7, 15, 9, 29): NUEVE,
-            datetime(2026, 7, 15, 9, 30): datetime(2026, 7, 15, 10),
-        }
-        for llegada, hora in casos.items():
-            with self.subTest(llegada=llegada):
-                self.assertEqual(PlayasDeLaCosta().hora_a_consultar(llegada), hora)
-
-
 class TestCondicionesALaLlegada(unittest.TestCase):
     def setUp(self):
-        self.playas = PlayasDeLaCosta(condiciones={BOLNUEVO: {NUEVE: CONDICIONES}})
+        self.a_las_diez = replace(CONDICIONES, altura_olas_metros=0.5)
+        self.playas = PlayasDeLaCosta(
+            condiciones={BOLNUEVO: {NUEVE: CONDICIONES, datetime(2026, 7, 15, 10): self.a_las_diez}}
+        )
 
-    def test_da_las_condiciones_de_bolnuevo_a_las_nueve(self):
-        self.assertEqual(self.playas.condiciones_a_la_llegada(BOLNUEVO, NUEVE), CONDICIONES)
-
+    def test_da_las_condiciones_de_la_hora_en_punto_mas_cercana(self):
+        casos = {
+            NUEVE: CONDICIONES,
+            datetime(2026, 7, 15, 9, 29): CONDICIONES,
+            datetime(2026, 7, 15, 9, 30): self.a_las_diez,
+        }
+        for llegada, condiciones in casos.items():
+            with self.subTest(llegada=llegada):
+                self.assertEqual(self.playas.condiciones_a_la_llegada(BOLNUEVO, llegada), condiciones)
+    
     def test_sin_datos_da_error(self):
         casos = {
             "playa sin datos": (CALBLANQUE, NUEVE),
