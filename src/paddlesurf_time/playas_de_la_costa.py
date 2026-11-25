@@ -5,7 +5,7 @@ from paddlesurf_time.condiciones_mar import CondicionesMar
 from paddlesurf_time.umbrales import Umbrales
 from paddlesurf_time.bandera import Bandera
 from paddlesurf_time.bandera_publicada import BanderaPublicada
-from paddlesurf_time.paginas import celdas_de_banderas, prevision_por_hora, horas_de_prevision
+from paddlesurf_time.paginas import celdas_de_banderas, prevision_por_hora, horas_de_prevision, fecha_de_actualizacion
 from paddlesurf_time.viento import Viento
 
 type Playa = tuple[str, str]
@@ -57,7 +57,7 @@ class PlayasDeLaCosta:
         self.banderas.update({
             (playa, municipio): BanderaPublicada(
                 bandera=Bandera.__members__.get(bandera),
-                actualizada=None if actualizada == "NO DISPONIBLE" else datetime.strptime(actualizada, "%d/%m/%Y %H:%M").date(),
+                actualizada=fecha_de_actualizacion(actualizada),
             )
             for playa, municipio, bandera, _, actualizada in celdas_de_banderas(estado_playas)
         })
