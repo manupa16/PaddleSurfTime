@@ -1,6 +1,6 @@
-FROM python:3.15.2-alpine3.24
+FROM python:alpine
 
-COPY --from=ghcr.io/astral-sh/uv:0.13.8 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 ENV UV_PROJECT_ENVIRONMENT=/opt/entorno
 
