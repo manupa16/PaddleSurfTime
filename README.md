@@ -19,8 +19,6 @@ El proyecto está en el Milestone 1. Está hecho el modelo (Milestone 0) y la l�
 
 ## Comprobación del código
 
-La clase principal es `PlayasDeLaCosta` localizada en `src/paddlesurf_time/playas_de_la_costa.py`. Se encarga de guardar las playas identificadas por su nombre y municipio, con la orientación de cada una y las condiciones del mar a cada hora. En la aplicación esta clase se consultará para saber, antes de salir de casa, si una playa estará apta para practicar paddle surf a la hora a la que se va a llegar, a partir de la orientación del mar en esa hora. Para ello, a partir de la playa y la hora de llegada, devuelve los motivos por los que no se puede salir (la bandera, el viento de tierra, el viento fuerte o las olas), y si no hay ninguno la playa está apta.
-
 Es necesario [uv](https://docs.astral.sh/uv/getting-started/installation/), que descarga Python 3.14 si no está en el sistema e instala taskipy, el gestor de tareas. Se instala así:
 
 ```

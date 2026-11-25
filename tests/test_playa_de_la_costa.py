@@ -137,6 +137,7 @@ class TestMotivosNoApta(unittest.TestCase):
             (con_viento_desde(278), Bandera.VERDE, ["viento de tierra"]),
             (replace(CONDICIONES, viento=replace(CONDICIONES.viento, fuerza_kmh=18)), Bandera.VERDE, ["viento fuerte"]),
             (replace(CONDICIONES, altura_olas_metros=0.6), Bandera.VERDE, ["olas"]),
+            (replace(CONDICIONES, viento=Viento(fuerza_kmh=18, direccion_grados=278), altura_olas_metros=0.6), Bandera.ROJA, ["bandera", "viento de tierra", "viento fuerte", "olas"]),
         ]
         for condiciones, bandera, motivos in casos:
             with self.subTest(motivos=motivos):
