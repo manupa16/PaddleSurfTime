@@ -178,12 +178,12 @@ class TestActualizarBanderas(unittest.TestCase):
             with self.subTest(playa=playa):
                 self.assertEqual(playas.banderas[playa], bandera)
 
-class TestJuntarCondiciones(unittest.TestCase):
+class TestHU001(unittest.TestCase):
     def setUp(self):
         self.playas = PlayasDeLaCosta(orientaciones_grados={BOLNUEVO_OASIS: 165})
         self.playas.actualizar_banderas(BANDERAS)
 
-    def test_dice_si_bolnuevo_esta_apta_a_la_llegada(self):
+    def test_hu001_saber_si_la_playa_esta_apta_a_la_llegada(self):
         casos = {
             datetime(2024, 9, 11, 9): ["viento de tierra"],
             datetime(2024, 9, 11, 12): [],
