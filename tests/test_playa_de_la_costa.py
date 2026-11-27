@@ -131,14 +131,14 @@ class TestVientoYOlasPasanDelLimite(unittest.TestCase):
 
 class TestMotivosNoApta(unittest.TestCase):
     def test_da_el_motivo_de_cada_condicion_que_impide_salir(self):
-        casos = [
+        casos = (
             (CONDICIONES, Bandera.VERDE, []),
             (CONDICIONES, Bandera.ROJA, ["bandera"]),
             (con_viento_desde(278), Bandera.VERDE, ["viento de tierra"]),
             (replace(CONDICIONES, viento=replace(CONDICIONES.viento, fuerza_kmh=18)), Bandera.VERDE, ["viento fuerte"]),
             (replace(CONDICIONES, altura_olas_metros=0.6), Bandera.VERDE, ["olas"]),
             (replace(CONDICIONES, viento=Viento(fuerza_kmh=18, direccion_grados=278), altura_olas_metros=0.6), Bandera.ROJA, ["bandera", "viento de tierra", "viento fuerte", "olas"]),
-        ]
+        )
         for condiciones, bandera, motivos in casos:
             with self.subTest(motivos=motivos):
                 playas = PlayasDeLaCosta(
