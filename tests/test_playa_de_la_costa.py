@@ -131,14 +131,14 @@ class TestVientoYOlasPasanDelLimite(unittest.TestCase):
 
 class TestMotivosNoApta(unittest.TestCase):
     def test_da_el_motivo_de_cada_condicion_que_impide_salir(self):
-        casos = [
+        casos = (
             (CONDICIONES, Bandera.VERDE, []),
             (CONDICIONES, Bandera.ROJA, ["bandera"]),
             (con_viento_desde(278), Bandera.VERDE, ["viento de tierra"]),
             (replace(CONDICIONES, viento=replace(CONDICIONES.viento, fuerza_kmh=18)), Bandera.VERDE, ["viento fuerte"]),
             (replace(CONDICIONES, altura_olas_metros=0.6), Bandera.VERDE, ["olas"]),
             (replace(CONDICIONES, viento=Viento(fuerza_kmh=18, direccion_grados=278), altura_olas_metros=0.6), Bandera.ROJA, ["bandera", "viento de tierra", "viento fuerte", "olas"]),
-        ]
+        )
         for condiciones, bandera, motivos in casos:
             with self.subTest(motivos=motivos):
                 playas = PlayasDeLaCosta(
@@ -178,12 +178,12 @@ class TestActualizarBanderas(unittest.TestCase):
             with self.subTest(playa=playa):
                 self.assertEqual(playas.banderas[playa], bandera)
 
-class TestJuntarCondiciones(unittest.TestCase):
+class TestHU001(unittest.TestCase):
     def setUp(self):
         self.playas = PlayasDeLaCosta(orientaciones_grados={BOLNUEVO_OASIS: 165})
         self.playas.actualizar_banderas(BANDERAS)
 
-    def test_dice_si_bolnuevo_esta_apta_a_la_llegada(self):
+    def test_hu001_saber_si_la_playa_esta_apta_a_la_llegada(self):
         casos = {
             datetime(2024, 9, 11, 9): ["viento de tierra"],
             datetime(2024, 9, 11, 12): [],
